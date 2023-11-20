@@ -23,7 +23,7 @@ Now you are good to go ahead.
 
 ## Usage
 
-0. Export your HLTB data in options. Alternatively, you can use provided `HLTB_Games_example.csv` for tests.
+0. Export your HLTB data in options. Alternatively, you can use provided `HLTB_Games_example.csv` in `example` folder for tests.
 
 1. Choose the right script for you:
 
