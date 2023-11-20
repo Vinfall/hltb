@@ -2,7 +2,5 @@
 venv
 virtualenv
 # CSV
-HLTB_Games_*.csv
-!HLTB_Games_example.csv
-HLTB-sanitized-*.csv
-HLTB-barchartrace-by-*.csv
+HLTB*.csv
+!example/HLTB_Games_example.csv

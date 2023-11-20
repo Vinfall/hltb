@@ -33,7 +33,7 @@ Now you are good to go ahead.
 | `HLTB-Visualizer.py` | Generate a few ugly charts |
 | `HLTB-Barchartrace.py` | Patch CSV to meet the criteria of [batchartrace](https://github.com/FabDevGit/barchartrace) |
 
-That's it. You can find more information about this on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
+That's it. You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
 
 ## License
 
