@@ -4,7 +4,7 @@
 
 [HowLongToBeat](https://howlongtobeat.com) is a website that helps your track play times, which is also [in collaboration with Microsoft](https://news.xbox.com/en-us/2022/09/14/september-updates-xbox-app-on-pc/) to show approximate competition time for the Xbox app on PC. The best thing is you can export your records to a CSV file so you really own your data, instead of relying on some unsecure third party.
 
-This is a linear and temporal data analysis & visualization based on the exported CSV using Python libraries, notably numpy, pandas and matplotlib.
+This is a linear and temporal data analysis & visualization based on the exported CSV using Python libraries, notably numpy, pandas and matplotlib, and only tested on GNU/Linux with Python 3.12.
 
 ## Install
 

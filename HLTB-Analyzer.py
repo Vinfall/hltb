@@ -3,6 +3,8 @@
 
 import glob
 import pandas as pd
+from collections import Counter
+import re
 # import numpy as np
 # import matplotlib.pyplot as plt
 
@@ -42,6 +44,47 @@ def calculate_month_playtime(df):
     return month_playtime_str
 
 
+def calculate_word_frequency(df):
+    # Extract the "Review" column and convert to lowercase
+    reviews = df["Review"].astype(str).str.lower()
+
+    # Remove punctuation using regular expressions
+    reviews = reviews.apply(lambda x: re.sub(r"[^\w\s]", "", x))
+
+    # Define stop words
+    # fmt: off
+    stop_words = {'the', 'and', 'to', 'of', 'is', 'in', 'it', 'this', 'that',
+        'was', 'as', 'for', 'with', 'on', 'at', 'by', 'from', 'are', 'you',
+        'your', 'we', 'our', 'us', 'i', 'me', 'my', 'mine', 'he', 'him',
+        'his', 'she', 'her', 'hers', 'they', 'them', 'their', 'theirs',
+        'nan', 'its', 'also', 'im'}
+    # fmt: on
+
+    # Tokenize the reviews
+    reviews = reviews.str.split()
+
+    # Remove stop words
+    reviews = reviews.apply(lambda x: [word for word in x if word not in stop_words])
+
+    # Flatten the list of words
+    words = [word for review in reviews for word in review]
+
+    # Perform word frequency analysis
+    word_counts = Counter(words)
+
+    # Keep only words with count >= 10
+    # word_counts = {word: count for word, count in word_counts.items() if count >= 10}
+    word_counts = {word: count for word, count in word_counts.items() if count > 1}
+
+    # Sort words by frequency in descending order
+    sorted_word_counts = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
+
+    # Print the word frequencies
+    print("Word frequency analysis:\n")
+    for word, count in sorted_word_counts:
+        print(word, count)
+
+
 # Read CSV file
 file_list = glob.glob("HLTB-sanitized-*.csv")
 if len(file_list) > 0:
@@ -56,6 +99,8 @@ else:
 month_playtime = calculate_month_playtime(df)
 # Print the result
 print("Monthly playtime:", month_playtime)
+# Calculate word frequency in reviews
+# calculate_word_frequency(df)
 
 # Debug preview
 # print(df)
