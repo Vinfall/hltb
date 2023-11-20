@@ -101,6 +101,11 @@ df["Rating"] = df["Rating"].replace(0, np.nan)
 # Convert to integer while keeping NaN
 df["Rating"] = pd.to_numeric(df["Rating"], errors="coerce").astype("Int64")
 
+# Drop the "Review" column
+df = df.drop("Review", axis=1)
+# Rename the "Review Notes" column to "Review"
+df = df.rename(columns={"Review Notes": "Review"})
+
 # Keep only these columns
 df = df[
     [
@@ -112,6 +117,7 @@ df = df[
         "Date",
         "Lastmod",
         "Playtime",
+        "Review",
     ]
 ]
 
