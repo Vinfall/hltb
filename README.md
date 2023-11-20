@@ -30,7 +30,8 @@ Now you are good to go ahead.
 | Script | Function |
 |---|---|
 | `HLTB-Sanitizer.py` | Sanitize exported data |
-| `HLTB-Visualizer.py` | Generate a few ugly charts |
+| `HLTB-Analyzer.py` | Analyze sanitized data |
+| `HLTB-Visualizer.py` | Generate a few ugly charts from sanitized data |
 | `HLTB-Barchartrace.py` | Patch CSV to meet the criteria of [batchartrace](https://github.com/FabDevGit/barchartrace) |
 
 That's it. You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
