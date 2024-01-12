@@ -4,6 +4,8 @@
 import glob
 import matplotlib.pyplot as plt
 import pandas as pd
+from wordcloud import WordCloud
+from imageio import imread  # noqa: F401
 # import numpy as np
 
 
@@ -33,6 +35,40 @@ def plot_platform_distribution_exclude_pc(df):
     plt.show()
 
 
+def generate_review_wordcloud(df):
+    # mask = imread("mask.png")
+    # Define stop words
+    # fmt: off
+    stop_words = {'the', 'and', 'to', 'of', 'is', 'in', 'it', 'this', 'that',
+        'was', 'as', 'for', 'with', 'on', 'at', 'by', 'from', 'are', 'you',
+        'your', 'we', 'our', 'us', 'i', 'me', 'my', 'mine', 'he', 'him',
+        'his', 'she', 'her', 'hers', 'they', 'them', 'their', 'theirs',
+        'nan', 'its', 'also', 'im', 'nan'}
+    # fmt: on
+
+    # Concatenate all the reviews into a single string
+    text = " ".join(df["Review"].astype(str).tolist())
+
+    # Create a WordCloud object
+    w = WordCloud(
+        width=800,
+        height=400,
+        background_color="white",
+        # font_path="some-font.ttf",
+        max_words=100,
+        stopwords=stop_words,
+        # mask=mask,
+    )
+    w.generate(text)
+    w.to_file("ReviewWordCloud.png")
+
+    # Display the word cloud using matplotlib
+    plt.figure(figsize=(10, 5))
+    plt.imshow(w, interpolation="bilinear")
+    plt.axis("off")
+    plt.show()
+
+
 # Read CSV file
 file_list = glob.glob("HLTB-sanitized-*.csv")
 if len(file_list) > 0:
@@ -45,6 +81,8 @@ else:
 # Generate and display charts
 plot_storefront_for_pc_platform(df)
 plot_platform_distribution_exclude_pc(df)
+# generate_review_wordcloud(df)
+
 
 # Debug preview
 # print(df)
