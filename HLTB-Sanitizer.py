@@ -30,26 +30,18 @@ def sanitized_dataframe(df):
     df.replace("--", np.nan, inplace=True)
 
     # Exclude blocked games
-    df = df[df["Blocked"] != "✓"]
+    df = df[df["Blocked"] != "X"]
 
     return df
 
 
 def determine_status(row):
-    if row["Playing"] == "✓":
-        return "Playing"
-    elif row["Backlog"] == "✓":
-        return "Backlog"
-    elif row["Replay"] == "✓":
-        return "Replay"
-    elif row["Stalled"] == "✓":
-        return "Stalled"
-    elif row["Completed"] == "✓":
-        return "Completed"
-    elif row["Retired"] == "✓":
-        return "Retired"
-    else:
-        return ""
+    keys = ["Playing", "Backlog", "Replay", "Stalled", "Completed", "Retired"]
+    key = "; ".join([key for key in keys if row.get(key) == "X"])
+    # Prioritize Replay status
+    if "Replay" in key:
+        key = "Replay"
+    return key
 
 
 # Read CSV file
