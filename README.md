@@ -25,29 +25,21 @@ Now you are good to go ahead.
 
 0. Export your HLTB data in options. Alternatively, you can use provided [`HLTB_Games_example.csv`](example/HLTB_Games_example.csv) in `example` folder for tests.
 
-1. Run the scripts in this order:
+1. Run the scripts.
 
-| Script | Function |
-|---|---|
-| [`HLTB-Sanitizer.py`](HLTB-Sanitizer.py) | Sanitize exported data |
-| [`HLTB-Analyzer.py`](HLTB-Analyzer.py) | Analyze sanitized data |
-| [`HLTB-Visualizer.py`](HLTB-Visualizer.py) | Generate a few ugly charts from sanitized data |
-| [`HLTB-Barchartrace.py`](HLTB-Barchartrace.py) | Patch CSV to meet the criteria of [batchartrace](https://github.com/FabDevGit/barchartrace) |
-
-That's it.
-
-Some suggestions you may find useful:
-- [`HLTB-Sanitizer.py`](HLTB-Sanitizer.py)
+The following information may be useful to you:
+- [`HLTB-Sanitizer.py`](HLTB-Sanitizer.py): sanitize exported data
   - Edit `BLOCK_TAGS` to exluded games with certain tags
   - Edit `CUSTOM_TAGS` to recognize your custom tab names
   - Change `SCORE_MAX` to `100` if you prefer Percentage System
-- [`HLTB-Analyzer.py`](HLTB-Analyzer.py)
+- [`HLTB-Analyzer.py`](HLTB-Analyzer.py): analyze *sanitized* data
   - Adjust `MIN_TIMES` to change the word frequency limit
-- [`HLTB-Visualizer.py`](HLTB-Visualizer.py)
-  - Control plot behavior via `SHOW_PLOT`
+- [`HLTB-Visualizer.py`](HLTB-Visualizer.py): generate a few ugly charts from *sanitized* data
+  - Control plot behavior via `SHOW_PLOT`: patch CSV to meet the criteria of [batchartrace](https://github.com/FabDevGit/barchartrace)
+- [`HLTB-Barchartrace.py`](HLTB-Barchartrace.py)
 
 
-You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
+That's it. You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
 
 ## [License](LICENSE)
 

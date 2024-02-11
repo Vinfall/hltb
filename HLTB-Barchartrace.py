@@ -13,6 +13,8 @@ sanitizer_module = importlib.import_module("HLTB-Sanitizer")
 BLOCK_TAGS = ["Blocked"]
 # Custom tab names
 CUSTOM_TAGS = ["Stalled"]
+# Accepted vlaues: "Platform", "Storefront"
+DIVISION = "Platform"
 
 
 # Organize sanitized CSV
@@ -152,35 +154,33 @@ def sanitized_dataframe_post(df, division):
 
 # File naming scheme
 file_list = glob.glob("HLTB_Games_*.csv")
-# Accepted vlaues: 'Platform', 'Storefront'
-division = "Platform"
 
 # Read CSV file
 if len(file_list) > 0:
-    filepath = file_list[0]
-    df = pd.read_csv(filepath)
-    new_file_name = filepath.replace(
-        "HLTB_Games_", "HLTB-barchartrace-by-" + division.lower() + "-"
-    )
+    # Sanitize every file
+    for filepath in file_list:
+        new_file_name = filepath.replace(
+            "HLTB_Games_", "HLTB-barchartrace-by-" + DIVISION.lower() + "-"
+        )
+        df = pd.read_csv(filepath)
+        df = sanitizer_module.sanitized_dataframe(df)
+        df = sanitizer_module.date_sanitize(df)
+
+        # Sort data
+        df = sort_data(df)
+
+        # Calculate number of platforms at a specific date
+        df = calculate_number(df, DIVISION)
+
+        # Post sanitization
+        df = sanitized_dataframe_post(df, DIVISION)
+
+        # Debug preview
+        print(df)
+
+        # Export to CSV
+        df.to_csv(new_file_name, index=False, quoting=1)
+        print("Now drop output to https://fabdevgit.github.io/barchartrace")
 else:
     print("HLTB sanitized CSV not found.")
     exit()
-
-df = sanitizer_module.sanitized_dataframe(df)
-df = sanitizer_module.date_sanitize(df)
-
-# Sort data
-df = sort_data(df)
-
-# Calculate number of platforms at a specific date
-df = calculate_number(df, division)
-
-# Post sanitization
-df = sanitized_dataframe_post(df, division)
-
-# Debug preview
-print(df)
-
-# Export to CSV
-df.to_csv(new_file_name, index=False, quoting=1)
-print("Now drop output to https://fabdevgit.github.io/barchartrace")
