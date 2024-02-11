@@ -8,11 +8,17 @@ import pandas as pd
 
 # Deal with caveats in exported CSV
 def sanitized_dataframe(df):
-    # Drop unused custom tag column index between "Blocked" and "Completed"
-    blocked_index = df.columns.get_loc("Blocked")
-    # completed_index = df.columns.get_loc("Completed")
-    middle_column_index = blocked_index + 1
-    df.drop(df.columns[middle_column_index], axis=1, inplace=True)
+    # Find custom tag column index
+    start_index = df.columns.get_loc("Replay")
+    end_index = df.columns.get_loc("Completed")
+    for column_index in range(start_index + 1, end_index):
+        # Drop unused custom tag between "Replay" and "Completed"
+        if (
+            "Custom-1" in df.columns[column_index]
+            or "Custom-2" in df.columns[column_index]
+            or "Custom-3" in df.columns[column_index]
+        ):
+            df.drop(df.columns[column_index], axis=1, inplace=True)
 
     # Rename second "Completed" column (the one before "Progress") to "Completed Date"
     progress_index = df.columns.get_loc("Progress")
