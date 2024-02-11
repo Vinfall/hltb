@@ -44,7 +44,8 @@ def determine_status(row):
     return key
 
 
-def post_sanitize(df):
+def post_sanitize(sanitized_df):
+    df = sanitized_df
     # Convert to time type
     df[["Progress", "Main Story", "Main + Extras", "Completionist"]] = df[
         ["Progress", "Main Story", "Main + Extras", "Completionist"]
@@ -91,9 +92,9 @@ def post_sanitize(df):
     df["Rating"] = df["Rating"].replace(0, np.nan)
     # Convert to integer while keeping NaN
     df["Rating"] = pd.to_numeric(df["Rating"], errors="coerce").astype("Int64")
-
     # Drop the "Review" column
     df = df.drop("Review", axis=1)
+
     # Rename the "Review Notes" column to "Review"
     df = df.rename(columns={"Review Notes": "Review"})
 
@@ -123,6 +124,7 @@ if len(file_list) > 0:
         new_file_name = filepath.replace("HLTB_Games_", "HLTB-sanitized-")
         df = pd.read_csv(filepath)
         df = sanitized_dataframe(df)
+        df = post_sanitize(df)
 
         # Debug preview
         print(df)
