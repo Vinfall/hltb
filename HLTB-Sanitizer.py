@@ -5,7 +5,10 @@ import glob
 import numpy as np
 import pandas as pd
 
+# Tags to exclude from results
 BLOCK_TAGS = ["Blocked"]
+# Custom tab names
+CUSTOM_TAGS = ["Stalled"]
 
 
 # Deal with caveats in exported CSV
@@ -39,7 +42,7 @@ def sanitized_dataframe(df):
 
 
 def determine_status(row):
-    keys = ["Playing", "Backlog", "Replay", "Stalled", "Completed", "Retired"]
+    keys = ["Playing", "Backlog", "Replay", "Completed", "Retired"] + CUSTOM_TAGS
     key = "; ".join([key for key in keys if row.get(key) == "X"])
     # Prioritize Replay status
     if "Replay" in key:
