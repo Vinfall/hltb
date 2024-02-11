@@ -74,6 +74,7 @@ def post_sanitize(sanitized_df):
     df["Date"] = df["Added"].dt.strftime("%Y-%m-%d")
 
     # Choose nearest date between "Completion Date" & "Updated" as "Lastmod"
+    # TODO: keep both "Completion Date" and "Lastmod", reflect changes in other scripts
     df["Completion Date"] = pd.to_datetime(
         df["Completion Date"], format="%Y-%m-%d", errors="coerce"
     )
@@ -96,8 +97,16 @@ def post_sanitize(sanitized_df):
     # Drop the "Review" column
     df = df.drop("Review", axis=1)
 
-    # Rename the "Review Notes" column to "Review"
-    df = df.rename(columns={"Review Notes": "Review"})
+    # Choose longest one among "Review Notes", "General Notes" and "Retired Notes" as "Review"
+    df["Review"] = df.apply(
+        lambda row: max(
+            row["Review Notes"],
+            row["General Notes"],
+            row["Retired Notes"],
+            key=lambda x: len(str(x)),
+        ),
+        axis=1,
+    )
 
     # Keep only these columns
     df = df[
