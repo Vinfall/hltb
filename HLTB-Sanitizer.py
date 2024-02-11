@@ -25,12 +25,6 @@ def sanitized_dataframe(df):
         ):
             df.drop(df.columns[column_index], axis=1, inplace=True)
 
-    # Rename second "Completed" column (the one before "Progress") to "Completed Date"
-    progress_index = df.columns.get_loc("Progress")
-    columns = df.columns.tolist()
-    columns[progress_index - 1] = "Completed Date"
-    df.columns = columns
-
     # Replace "--" (implying null time) with NaN
     df.replace("--", np.nan, inplace=True)
 
@@ -86,14 +80,14 @@ df["Playtime"] = max_playtime_hours.apply(
 df["Added"] = pd.to_datetime(df["Added"], format="%Y-%m-%d %H:%M:%S", errors="coerce")
 df["Date"] = df["Added"].dt.strftime("%Y-%m-%d")
 
-# Choose nearest date between "Completed Date" & "Updated" as "Lastmod"
-df["Completed Date"] = pd.to_datetime(
-    df["Completed Date"], format="%Y-%m-%d", errors="coerce"
+# Choose nearest date between "Completion Date" & "Updated" as "Lastmod"
+df["Completion Date"] = pd.to_datetime(
+    df["Completion Date"], format="%Y-%m-%d", errors="coerce"
 )
 df["Updated"] = pd.to_datetime(
     df["Updated"], format="%Y-%m-%d %H:%M:%S", errors="coerce"
 )
-df["Lastmod"] = df[["Completed Date", "Updated"]].max(axis=1).dt.strftime("%Y-%m-%d")
+df["Lastmod"] = df[["Completion Date", "Updated"]].max(axis=1).dt.strftime("%Y-%m-%d")
 
 # Status
 df["Status"] = df.apply(determine_status, axis=1)
