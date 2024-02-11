@@ -23,18 +23,23 @@ Now you are good to go ahead.
 
 ## Usage
 
-0. Export your HLTB data in options. Alternatively, you can use provided `HLTB_Games_example.csv` in `example` folder for tests.
+0. Export your HLTB data in options. Alternatively, you can use provided [`HLTB_Games_example.csv`](example/HLTB_Games_example.csv) in `example` folder for tests.
 
 1. Choose the right script for you:
 
 | Script | Function |
 |---|---|
-| `HLTB-Sanitizer.py` | Sanitize exported data |
-| `HLTB-Analyzer.py` | Analyze sanitized data |
-| `HLTB-Visualizer.py` | Generate a few ugly charts from sanitized data |
-| `HLTB-Barchartrace.py` | Patch CSV to meet the criteria of [batchartrace](https://github.com/FabDevGit/barchartrace) |
+| [`HLTB-Sanitizer.py`](HLTB-Sanitizer.py) | Sanitize exported data |
+| [`HLTB-Analyzer.py`](HLTB-Analyzer.py) | Analyze sanitized data |
+| [`HLTB-Visualizer.py`](HLTB-Visualizer.py) | Generate a few ugly charts from sanitized data |
+| [`HLTB-Barchartrace.py`](HLTB-Barchartrace.py) | Patch CSV to meet the criteria of [batchartrace](https://github.com/FabDevGit/barchartrace) |
 
-That's it. You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
+That's it.
+
+Some suggestions you may find useful:
+- You can edit `BLOCK_TAGS` in [`HLTB-Sanitizer.py`](HLTB-Sanitizer.py) to exluded games with certain tags
+
+You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
 
 ## [License](LICENSE)
 
