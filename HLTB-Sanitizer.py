@@ -37,6 +37,28 @@ def sanitized_dataframe(df):
     return df
 
 
+def date_sanitize(df):
+    # df = sanitized_df.copy()
+    # Use "Added" column as "Date"
+    df["Added"] = pd.to_datetime(
+        df["Added"], format="%Y-%m-%d %H:%M:%S", errors="coerce"
+    )
+    df["Date"] = df["Added"].dt.strftime("%Y-%m-%d")
+
+    # Choose nearest date between "Completion Date" & "Updated" as "Lastmod"
+    # TODO: keep both "Completion Date" and "Lastmod", reflect changes in other scripts
+    df["Completion Date"] = pd.to_datetime(
+        df["Completion Date"], format="%Y-%m-%d", errors="coerce"
+    )
+    df["Updated"] = pd.to_datetime(
+        df["Updated"], format="%Y-%m-%d %H:%M:%S", errors="coerce"
+    )
+    df["Lastmod"] = (
+        df[["Completion Date", "Updated"]].max(axis=1).dt.strftime("%Y-%m-%d")
+    )
+    return df
+
+
 def determine_status(row):
     keys = ["Playing", "Backlog", "Replay", "Completed", "Retired"] + CUSTOM_TAGS
     key = "; ".join([key for key in keys if row.get(key) == "X"])
@@ -69,24 +91,8 @@ def post_sanitize(sanitized_df):
         )
     )
 
-    # Use "Added" column as "Date"
-    df["Added"] = pd.to_datetime(
-        df["Added"], format="%Y-%m-%d %H:%M:%S", errors="coerce"
-    )
-    df["Date"] = df["Added"].dt.strftime("%Y-%m-%d")
-
-    # Choose nearest date between "Completion Date" & "Updated" as "Lastmod"
-    # TODO: keep both "Completion Date" and "Lastmod", reflect changes in other scripts
-    df["Completion Date"] = pd.to_datetime(
-        df["Completion Date"], format="%Y-%m-%d", errors="coerce"
-    )
-    df["Updated"] = pd.to_datetime(
-        df["Updated"], format="%Y-%m-%d %H:%M:%S", errors="coerce"
-    )
-    df["Lastmod"] = (
-        df[["Completion Date", "Updated"]].max(axis=1).dt.strftime("%Y-%m-%d")
-    )
-
+    # Date
+    df = date_sanitize(df)
     # Status
     df["Status"] = df.apply(determine_status, axis=1)
 

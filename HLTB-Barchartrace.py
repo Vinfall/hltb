@@ -4,29 +4,15 @@
 import glob
 import numpy as np
 import pandas as pd
+import importlib
 
+# Import functions from HLTB-Sanitizer
+sanitizer_module = importlib.import_module("HLTB-Sanitizer")
 
-# Deal with caveats in exported CSV
-def sanitized_dataframe_pre(df):
-    # Drop unused custom tag column index between "Blocked" and "Completed"
-    blocked_index = df.columns.get_loc("Blocked")
-    # completed_index = df.columns.get_loc("Completed")
-    middle_column_index = blocked_index + 1
-    df.drop(df.columns[middle_column_index], axis=1, inplace=True)
-
-    # Rename second "Completed" column (the one before "Progress") to "Completed Date"
-    progress_index = df.columns.get_loc("Progress")
-    columns = df.columns.tolist()
-    columns[progress_index - 1] = "Completed Date"
-    df.columns = columns
-
-    # Replace "--" (implying null time) with NaN
-    df.replace("--", np.nan, inplace=True)
-
-    # Exclude blocked games
-    df = df[df["Blocked"] != "✓"]
-
-    return df
+# Tags to exclude from results, possible to use multiple tags, exmaple: ["Backlog", "Retired"]
+BLOCK_TAGS = ["Blocked"]
+# Custom tab names
+CUSTOM_TAGS = ["Stalled"]
 
 
 # Organize sanitized CSV
@@ -180,20 +166,8 @@ else:
     print("HLTB sanitized CSV not found.")
     exit()
 
-df = sanitized_dataframe_pre(df)
-
-# Use "Added" column as "Date"
-df["Added"] = pd.to_datetime(df["Added"], format="%Y-%m-%d %H:%M:%S", errors="coerce")
-df["Date"] = df["Added"].dt.strftime("%Y-%m-%d")
-
-# Choose nearest date between "Completed Date" & "Updated" as "Lastmod"
-df["Completed Date"] = pd.to_datetime(
-    df["Completed Date"], format="%Y-%m-%d", errors="coerce"
-)
-df["Updated"] = pd.to_datetime(
-    df["Updated"], format="%Y-%m-%d %H:%M:%S", errors="coerce"
-)
-df["Lastmod"] = df[["Completed Date", "Updated"]].max(axis=1).dt.strftime("%Y-%m-%d")
+df = sanitizer_module.sanitized_dataframe(df)
+df = sanitizer_module.date_sanitize(df)
 
 # Sort data
 df = sort_data(df)
