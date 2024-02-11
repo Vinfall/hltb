@@ -25,7 +25,7 @@ Now you are good to go ahead.
 
 0. Export your HLTB data in options. Alternatively, you can use provided [`HLTB_Games_example.csv`](example/HLTB_Games_example.csv) in `example` folder for tests.
 
-1. Choose the right script for you:
+1. Run the scripts in this order:
 
 | Script | Function |
 |---|---|
@@ -41,6 +41,8 @@ Some suggestions you may find useful:
   - Edit `BLOCK_TAGS` to exluded games with certain tags
   - Edit `CUSTOM_TAGS` to recognize your custom tab names
   - Change `SCORE_MAX` to `100` if you prefer Percentage System
+- [`HLTB-Analyzer.py`](HLTB-Analyzer.py)
+  - Adjust `MIN_TIMES` to change the word frequency limit
 
 You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
 

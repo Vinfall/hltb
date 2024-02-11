@@ -8,6 +8,9 @@ import re
 # import numpy as np
 # import matplotlib.pyplot as plt
 
+# Minimum number of appreances of words to show in word frequency analysis
+MIN_TIMES = 10
+
 
 def calculate_month_playtime(df):
     # Get the current date
@@ -34,7 +37,7 @@ def calculate_month_playtime(df):
     # Convert playtime of month to time strings and sum them
     month_playtime = pd.to_timedelta(month_rows["Playtime"]).sum()
 
-    # Convert month_playtime to the format HH:MM:SS
+    # Format month_playtime to HH:MM:SS
     total_seconds = month_playtime.total_seconds()
     hours = int(total_seconds // 3600)
     minutes = int((total_seconds % 3600) // 60)
@@ -44,7 +47,7 @@ def calculate_month_playtime(df):
     return month_playtime_str
 
 
-def calculate_word_frequency(df):
+def calculate_word_frequency(df, min_times):
     # Extract the "Review" column and convert to lowercase
     reviews = df["Review"].astype(str).str.lower()
 
@@ -72,9 +75,10 @@ def calculate_word_frequency(df):
     # Perform word frequency analysis
     word_counts = Counter(words)
 
-    # Keep only words with count >= 10
-    # word_counts = {word: count for word, count in word_counts.items() if count >= 10}
-    word_counts = {word: count for word, count in word_counts.items() if count > 1}
+    # Keep only words with count >= min_times
+    word_counts = {
+        word: count for word, count in word_counts.items() if count > min_times
+    }
 
     # Sort words by frequency in descending order
     sorted_word_counts = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
@@ -88,6 +92,7 @@ def calculate_word_frequency(df):
 # Read CSV file
 file_list = glob.glob("HLTB-sanitized-*.csv")
 if len(file_list) > 0:
+    # Only use the first file
     filepath = file_list[0]
     df = pd.read_csv(filepath)
 else:
@@ -100,7 +105,7 @@ month_playtime = calculate_month_playtime(df)
 # Print the result
 print("Monthly playtime:", month_playtime)
 # Calculate word frequency in reviews
-# calculate_word_frequency(df)
+calculate_word_frequency(df, MIN_TIMES)
 
 # Debug preview
 # print(df)
