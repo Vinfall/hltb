@@ -45,7 +45,8 @@ def determine_status(row):
 
 
 def post_sanitize(sanitized_df):
-    df = sanitized_df
+    # Copy dataframe to remove pandas warnings
+    df = sanitized_df.copy()
     # Convert to time type
     df[["Progress", "Main Story", "Main + Extras", "Completionist"]] = df[
         ["Progress", "Main Story", "Main + Extras", "Completionist"]
