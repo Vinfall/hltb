@@ -27,8 +27,10 @@ def sanitized_dataframe(df):
         ):
             df.drop(df.columns[column_index], axis=1, inplace=True)
 
+    # Fix pandas FutureWarning
+    pd.set_option("future.no_silent_downcasting", True)
     # Replace "--" (implying null time) with NaN
-    df.replace("--", np.nan, inplace=True)
+    df = df.replace("--", np.nan).infer_objects(copy=False)
 
     # Exclude games with unwanted tags
     for block_tag in BLOCK_TAGS:

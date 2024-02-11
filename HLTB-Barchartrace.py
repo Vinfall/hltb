@@ -86,7 +86,9 @@ def calculate_number(df, division):
     merged_df["Number"] = merged_df.groupby(division)["Number"].ffill()
 
     # Fill the first 'Number' value of every division values with 0
-    merged_df["Number"] = merged_df.groupby(division)["Number"].fillna(0)
+    merged_df["Number"] = merged_df.groupby(division)["Number"].transform(
+        lambda x: x.fillna(0)
+    )
 
     return merged_df
 
