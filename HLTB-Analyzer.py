@@ -99,7 +99,7 @@ if len(file_list) > 0:
     filepath = file_list[0]
     df = pd.read_csv(filepath)
 else:
-    print("HLTB sanitized CSV not found.")
+    print("Sanitized CSV not found. Run `python HLTB-Sanitizer.py` first.")
     exit()
 
 # Analyze data

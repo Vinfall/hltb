@@ -8,8 +8,15 @@ from wordcloud import WordCloud
 from imageio import imread  # noqa: F401
 # import numpy as np
 
+# Show plot or save to file, True means show plot
+SHOW_PLOT = {
+    "storefront_for_pc_platform": False,
+    "platform_distribution_exclude_pc": True,
+    "review_wordcloud": False,
+}
 
-def plot_storefront_for_pc_platform(df):
+
+def plot_storefront_for_pc_platform(df, show_plot):
     # Select rows where Platform is PC and exclude Steam
     pc_storefront_counts = df[(df["Platform"] == "PC") & (df["Storefront"] != "Steam")][
         "Storefront"
@@ -21,10 +28,15 @@ def plot_storefront_for_pc_platform(df):
     ax.set_title(
         "Storefront Distribution for PC Platform (Excluding Steam) (Pie Chart)"
     )
-    plt.show()
+    if show_plot is True:
+        # Show the plot
+        plt.show()
+    else:
+        # Save the plot to file
+        plt.savefig("output/pc-storefront.png")
 
 
-def plot_platform_distribution_exclude_pc(df):
+def plot_platform_distribution_exclude_pc(df, show_plot):
     # Select rows where Platform is not PC
     platform_counts = df[df["Platform"] != "PC"]["Platform"].value_counts()
 
@@ -32,10 +44,13 @@ def plot_platform_distribution_exclude_pc(df):
     fig, ax = plt.subplots(figsize=(8, 8))
     ax.pie(platform_counts, labels=platform_counts.index, autopct="%1.1f%%")
     ax.set_title("Platform Distribution (Excluding PC) (Pie Chart)")
-    plt.show()
+    if show_plot is True:
+        plt.show()
+    else:
+        plt.savefig("output/platform-distribution.png")
 
 
-def generate_review_wordcloud(df):
+def generate_review_wordcloud(df, show_plot):
     # mask = imread("mask.png")
     # Define stop words
     # fmt: off
@@ -66,7 +81,10 @@ def generate_review_wordcloud(df):
     plt.figure(figsize=(10, 5))
     plt.imshow(w, interpolation="bilinear")
     plt.axis("off")
-    plt.show()
+    if show_plot is True:
+        plt.show()
+    else:
+        plt.savefig("output/review-wordcloud.png")
 
 
 # Read CSV file
@@ -75,14 +93,10 @@ if len(file_list) > 0:
     filepath = file_list[0]
     df = pd.read_csv(filepath)
 else:
-    print("HLTB sanitized CSV not found. Run `python HLTB-Sanitizer.py` first.")
+    print("Sanitized CSV not found. Run `python HLTB-Sanitizer.py` first.")
     exit()
 
 # Generate and display charts
-plot_storefront_for_pc_platform(df)
-plot_platform_distribution_exclude_pc(df)
-# generate_review_wordcloud(df)
-
-
-# Debug preview
-# print(df)
+plot_storefront_for_pc_platform(df, SHOW_PLOT["storefront_for_pc_platform"])
+plot_platform_distribution_exclude_pc(df, SHOW_PLOT["platform_distribution_exclude_pc"])
+generate_review_wordcloud(df, SHOW_PLOT["review_wordcloud"])

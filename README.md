@@ -43,6 +43,9 @@ Some suggestions you may find useful:
   - Change `SCORE_MAX` to `100` if you prefer Percentage System
 - [`HLTB-Analyzer.py`](HLTB-Analyzer.py)
   - Adjust `MIN_TIMES` to change the word frequency limit
+- [`HLTB-Visualizer.py`](HLTB-Visualizer.py)
+  - Control plot behavior via `SHOW_PLOT`
+
 
 You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
 
