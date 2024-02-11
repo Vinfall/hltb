@@ -40,6 +40,7 @@ Some suggestions you may find useful:
 - [`HLTB-Sanitizer.py`](HLTB-Sanitizer.py)
   - Edit `BLOCK_TAGS` to exluded games with certain tags
   - Edit `CUSTOM_TAGS` to recognize your custom tab names
+  - Change `SCORE_MAX` to `100` if you prefer Percentage System
 
 You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
 

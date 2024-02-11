@@ -5,10 +5,12 @@ import glob
 import numpy as np
 import pandas as pd
 
-# Tags to exclude from results
+# Tags to exclude from results, possible to use multiple tags, exmaple: ["Backlog", "Retired"]
 BLOCK_TAGS = ["Blocked"]
 # Custom tab names
 CUSTOM_TAGS = ["Stalled"]
+# Rating base, accepted values: 10, 100
+SCORE_MAX = 10
 
 
 # Deal with caveats in exported CSV
@@ -88,8 +90,14 @@ def post_sanitize(sanitized_df):
     # Status
     df["Status"] = df.apply(determine_status, axis=1)
 
-    # Rating, 10/10 not 100/100
-    df["Rating"] = df["Review"] // 10
+    # Rating
+    if SCORE_MAX == 10:
+        df["Rating"] = df["Review"] // 10
+    elif SCORE_MAX == 100:
+        df["Rating"] = df["Review"]
+    else:
+        print("Invalid SCORE_MAX value.")
+        exit()
     # Replace "Not Rated" with NaN
     df["Rating"] = df["Rating"].replace(0, np.nan)
     # Convert to integer while keeping NaN
