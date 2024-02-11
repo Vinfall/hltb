@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import glob
+import os
 import pandas as pd
 from collections import Counter
 import re
@@ -83,10 +84,12 @@ def calculate_word_frequency(df, min_times):
     # Sort words by frequency in descending order
     sorted_word_counts = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
 
-    # Print the word frequencies
-    print("Word frequency analysis:\n")
-    for word, count in sorted_word_counts:
-        print(word, count)
+    # Save word frequencies to file
+    with open("output/word-frequency.txt", "w") as file:
+        file.write("Word frequency analysis:\n")
+        for word, count in sorted_word_counts:
+            file.write(f"{word} {count}\n")
+    print("Check output/word-frequency.txt for the results.")
 
 
 # Read CSV file

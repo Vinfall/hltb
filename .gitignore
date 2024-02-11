@@ -4,3 +4,6 @@ virtualenv
 # CSV
 HLTB*.csv
 !example/HLTB_Games_example.csv
+# Output
+output/*
+!output/.gitkeep
