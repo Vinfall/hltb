@@ -5,6 +5,8 @@ import glob
 import numpy as np
 import pandas as pd
 
+BLOCK_TAGS = ["Blocked"]
+
 
 # Deal with caveats in exported CSV
 def sanitized_dataframe(df):
@@ -29,8 +31,9 @@ def sanitized_dataframe(df):
     # Replace "--" (implying null time) with NaN
     df.replace("--", np.nan, inplace=True)
 
-    # Exclude blocked games
-    df = df[df["Blocked"] != "X"]
+    # Exclude games with unwanted tags
+    for block_tag in BLOCK_TAGS:
+        df = df[df[block_tag] != "X"]
 
     return df
 
