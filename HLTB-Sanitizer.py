@@ -118,16 +118,17 @@ def post_sanitize(df):
 # Read CSV file
 file_list = glob.glob("HLTB_Games_*.csv")
 if len(file_list) > 0:
-    filepath = file_list[0]
-    new_file_name = filepath.replace("HLTB_Games_", "HLTB-sanitized-")
-    df = pd.read_csv(filepath)
-    df = sanitized_dataframe(df)
+    # Sanitize every file
+    for filepath in file_list:
+        new_file_name = filepath.replace("HLTB_Games_", "HLTB-sanitized-")
+        df = pd.read_csv(filepath)
+        df = sanitized_dataframe(df)
 
-    # Debug preview
-    print(df)
+        # Debug preview
+        print(df)
 
-    # Export to CSV
-    df.to_csv(new_file_name, index=False, quoting=1)
+        # Export to CSV
+        df.to_csv(new_file_name, index=False, quoting=1)
 else:
     print("HLTB exported CSV not found. Please export from options page first.")
     exit()
