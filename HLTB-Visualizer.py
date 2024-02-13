@@ -75,7 +75,6 @@ def generate_review_wordcloud(df, show_plot):
         # mask=mask,
     )
     w.generate(text)
-    w.to_file("ReviewWordCloud.png")
 
     # Display the word cloud using matplotlib
     plt.figure(figsize=(10, 5))
