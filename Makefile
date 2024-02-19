@@ -9,8 +9,11 @@ BARCHART = HLTB-Barchartrace.py
 ANALYZER = HLTB-Analyzer.py
 PLOT = HLTB-Visualizer.py
 
-# Default
-all: install sanitize analyze plot
+# Default target, run one by one
+all:
+	$(MAKE) install
+	$(MAKE) sanitize
+	$(MAKE) analyze plot
 
 # Install dependencies for Python
 install: $(REQUIREMENTS)
