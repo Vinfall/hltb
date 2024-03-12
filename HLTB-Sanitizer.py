@@ -75,7 +75,14 @@ def post_sanitize(sanitized_df):
     # Copy dataframe to remove pandas warnings
     df = sanitized_df.copy()
     # Allow robust change
-    TIME_COL = ["Progress", "Main Story", "Main + Extras", "Completionist"]
+    TIME_COL = [
+        "Progress",
+        "Main Story",
+        "Main + Extras",
+        "Completionist",
+        "Speed Any%",
+        "Speed 100%",
+    ]
     # Convert to time type
     df[TIME_COL] = df[TIME_COL].apply(pd.to_timedelta, errors="coerce")
     # Exclude NaN line
@@ -110,13 +117,18 @@ def post_sanitize(sanitized_df):
     # Drop the "Review" column
     df = df.drop("Review", axis=1)
 
-    # Choose longest one among "Review Notes", "General Notes" and "Retired Notes" as "Review"
+    # Choose longest one among various notes as "Review"
+    NOTE_COL = [
+        "Review Notes",
+        "General Notes",
+        "Retired Notes",
+        "Speed Any% Notes",
+        "Speed 100% Notes",
+    ]
     df["Review"] = df.apply(
         lambda row: max(
-            row["Review Notes"],
-            row["General Notes"],
-            row["Retired Notes"],
-            key=lambda x: len(str(x)),
+            (str(row[col]) if pd.notnull(row[col]) else "" for col in NOTE_COL),
+            key=len,
         ),
         axis=1,
     )
