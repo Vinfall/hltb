@@ -62,7 +62,8 @@ def date_sanitize(df):
 
 
 def determine_status(row):
-    keys = ["Playing", "Backlog", "Replay", "Completed", "Retired"] + CUSTOM_TAGS
+    STATUS_COL = ["Playing", "Backlog", "Replay", "Completed", "Retired"]
+    keys = STATUS_COL + CUSTOM_TAGS
     key = "; ".join([key for key in keys if row.get(key) == "X"])
     # Prioritize Replay status
     if "Replay" in key:
@@ -73,18 +74,14 @@ def determine_status(row):
 def post_sanitize(sanitized_df):
     # Copy dataframe to remove pandas warnings
     df = sanitized_df.copy()
+    # Allow robust change
+    TIME_COL = ["Progress", "Main Story", "Main + Extras", "Completionist"]
     # Convert to time type
-    df[["Progress", "Main Story", "Main + Extras", "Completionist"]] = df[
-        ["Progress", "Main Story", "Main + Extras", "Completionist"]
-    ].apply(pd.to_timedelta, errors="coerce")
+    df[TIME_COL] = df[TIME_COL].apply(pd.to_timedelta, errors="coerce")
     # Exclude NaN line
-    df = df.dropna(
-        subset=["Progress", "Main Story", "Main + Extras", "Completionist"], how="all"
-    )
+    df = df.dropna(subset=TIME_COL, how="all")
     # Choose the maximum one
-    max_playtime = df[["Progress", "Main Story", "Main + Extras", "Completionist"]].max(
-        axis=1
-    )
+    max_playtime = df[TIME_COL].max(axis=1)
     # Convert back to string as "Playtime"
     max_playtime_hours = max_playtime.dt.total_seconds().div(3600)
     df["Playtime"] = max_playtime_hours.apply(
