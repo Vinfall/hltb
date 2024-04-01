@@ -26,7 +26,7 @@ sanitize: $(SANITIZER)
 
 # Analyze data
 analyze: $(ANALYZER)
-	$(PYTHON) $(PLOT)
+	$(PYTHON) $(ANALYZER)
 
 # Generate plots
 plot: $(PLOT)
