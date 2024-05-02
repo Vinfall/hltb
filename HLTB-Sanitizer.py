@@ -46,18 +46,14 @@ def date_sanitize(df):
         df["Added"], format="%Y-%m-%d %H:%M:%S", errors="coerce"
     )
     df["Date"] = df["Added"].dt.strftime("%Y-%m-%d")
-
     # Choose nearest date between "Completion Date" & "Updated" as "Lastmod"
-    # TODO: keep both "Completion Date" and "Lastmod", reflect changes in other scripts
-    df["Completion Date"] = pd.to_datetime(
+    df["Finished"] = pd.to_datetime(
         df["Completion Date"], format="%Y-%m-%d", errors="coerce"
     )
     df["Updated"] = pd.to_datetime(
         df["Updated"], format="%Y-%m-%d %H:%M:%S", errors="coerce"
     )
-    df["Lastmod"] = (
-        df[["Completion Date", "Updated"]].max(axis=1).dt.strftime("%Y-%m-%d")
-    )
+    df["Lastmod"] = df[["Finished", "Updated"]].max(axis=1).dt.strftime("%Y-%m-%d")
     return df
 
 
@@ -142,6 +138,7 @@ def post_sanitize(sanitized_df):
             "Status",
             "Rating",
             "Date",
+            "Finished",
             "Lastmod",
             "Playtime",
             "Review",

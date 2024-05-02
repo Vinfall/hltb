@@ -13,6 +13,8 @@ sanitizer_module = importlib.import_module("HLTB-Sanitizer")
 BLOCK_TAGS = ["Blocked"]
 # Custom tab names
 CUSTOM_TAGS = ["Stalled"]
+# Preferred finished date, accepted values: "Finished", "Lastmod"
+DATE_COL = "Finished"
 # Accepted vlaues: "Platform", "Storefront"
 DIVISION = "Platform"
 
@@ -20,7 +22,7 @@ DIVISION = "Platform"
 # Organize sanitized CSV
 def sort_data(df):
     # Define the sort keys in the desired order
-    sort_keys = ["Date", "Lastmod", "Platform", "Storefront", "Title"]
+    sort_keys = ["Date", DATE_COL, "Platform", "Storefront", "Title"]
 
     # Sort the data based on the sort keys
     df_sorted = df.sort_values(by=sort_keys, na_position="last")

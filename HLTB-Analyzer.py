@@ -2,15 +2,17 @@
 # -*- coding: utf-8 -*-
 
 import glob
-import os
 import pandas as pd
 from collections import Counter
 import re
+# import os
 # import numpy as np
 # import matplotlib.pyplot as plt
 
 # Minimum number of appreances of words to show in word frequency analysis
 MIN_TIMES = 10
+# Preferred finished date, accepted values: "Finished", "Lastmod"
+DATE_COL = "Finished"
 
 
 def calculate_month_playtime(df):
@@ -26,13 +28,13 @@ def calculate_month_playtime(df):
 
     # Convert columns to Timestamp
     df["Date"] = pd.to_datetime(df["Date"])
-    df["Lastmod"] = pd.to_datetime(df["Lastmod"])
+    df[DATE_COL] = pd.to_datetime(df[DATE_COL])
 
     # Filter rows for the month and games that occupy more than 15 days
     month_rows = df[
-        (df["Lastmod"] >= month_start)
-        & (df["Lastmod"] <= month_end)
-        & (df["Lastmod"] - df["Date"] <= pd.Timedelta(days=15))
+        (df[DATE_COL] >= month_start)
+        & (df[DATE_COL] <= month_end)
+        & (df[DATE_COL] - df["Date"] <= pd.Timedelta(days=15))
     ]
 
     # Convert playtime of month to time strings and sum them
