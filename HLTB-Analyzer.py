@@ -9,7 +9,7 @@ import re
 # import numpy as np
 # import matplotlib.pyplot as plt
 
-# Minimum number of appreances of words to show in word frequency analysis
+# Minimum threshold of words to show in word frequency analysis
 MIN_TIMES = 10
 # Preferred finished date, accepted values: "Finished", "Lastmod"
 DATE_COL = "Finished"
@@ -23,8 +23,8 @@ def calculate_month_playtime(df):
     # month_start = (today - pd.offsets.MonthBegin(1)).strftime('%Y-%m-%d')
     # month_end = (today - pd.offsets.MonthEnd(1)).strftime('%Y-%m-%d')
     # pd.offsets does not work, so hardcode start and end
-    month_start = "2024-04-01"
-    month_end = "2024-04-30"
+    month_start = "2024-06-01"
+    month_end = "2024-06-30"
 
     # Convert columns to Timestamp
     df["Date"] = pd.to_datetime(df["Date"])
