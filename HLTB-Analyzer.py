@@ -3,6 +3,7 @@
 
 import glob
 import re
+import sys
 from collections import Counter
 
 import pandas as pd
@@ -15,7 +16,7 @@ DATE_COL = "Finished"
 
 def calculate_month_playtime(df):
     # Get the current date
-    today = pd.to_datetime("today").normalize()  # noqa
+    # today = pd.to_datetime("today").normalize()  # noqa
 
     # Get the start and end dates of the month
     # month_start = (today - pd.offsets.MonthBegin(1)).strftime('%Y-%m-%d')
@@ -85,7 +86,7 @@ def calculate_word_frequency(df, min_times):
     sorted_word_counts = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
 
     # Save word frequencies to file
-    with open("output/word-frequency.txt", "w") as file:
+    with open("output/word-frequency.txt", "w", encoding="utf-8") as file:
         file.write("Word frequency analysis:\n")
         for word, count in sorted_word_counts:
             file.write(f"{word} {count}\n")
@@ -97,18 +98,18 @@ file_list = glob.glob("HLTB-sanitized-*.csv")
 if len(file_list) > 0:
     # Only use the first file
     filepath = file_list[0]
-    df = pd.read_csv(filepath)
+    df_raw = pd.read_csv(filepath)
 else:
     print("Sanitized CSV not found. Run `python HLTB-Sanitizer.py` first.")
-    exit()
+    sys.exit()
 
 # Analyze data
 # Calculate the playtime of last month
-month_playtime = calculate_month_playtime(df)
+last_month_playtime = calculate_month_playtime(df_raw)
 # Print the result
-print("Monthly playtime:", month_playtime)
+print("Monthly playtime:", last_month_playtime)
 # Calculate word frequency in reviews
-calculate_word_frequency(df, MIN_TIMES)
+calculate_word_frequency(df_raw, MIN_TIMES)
 
 # Debug preview
-# print(df)
+# print(df.head())

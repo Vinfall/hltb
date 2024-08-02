@@ -3,6 +3,7 @@
 
 import csv
 import glob
+import sys
 
 import numpy as np
 import pandas as pd
@@ -60,8 +61,8 @@ def date_sanitize(df):
 
 
 def determine_status(row):
-    STATUS_COL = ["Playing", "Backlog", "Replay", "Completed", "Retired"]
-    keys = STATUS_COL + CUSTOM_TAGS
+    status_col = ["Playing", "Backlog", "Replay", "Completed", "Retired"]
+    keys = status_col + CUSTOM_TAGS
     key = "; ".join([key for key in keys if row.get(key) == "X"])
     # Prioritize Replay status
     if "Replay" in key:
@@ -73,7 +74,7 @@ def post_sanitize(sanitized_df):
     # Copy dataframe to remove pandas warnings
     df = sanitized_df.copy()
     # Allow robust change
-    TIME_COL = [
+    time_col = [
         "Progress",
         "Main Story",
         "Main + Extras",
@@ -82,11 +83,11 @@ def post_sanitize(sanitized_df):
         "Speed 100%",
     ]
     # Convert to time type
-    df[TIME_COL] = df[TIME_COL].apply(pd.to_timedelta, errors="coerce")
+    df[time_col] = df[time_col].apply(pd.to_timedelta, errors="coerce")
     # Exclude NaN line
-    df = df.dropna(subset=TIME_COL, how="all")
+    df = df.dropna(subset=time_col, how="all")
     # Choose the maximum one
-    max_playtime = df[TIME_COL].max(axis=1)
+    max_playtime = df[time_col].max(axis=1)
     # Convert back to string as "Playtime"
     max_playtime_hours = max_playtime.dt.total_seconds().div(3600)
     df["Playtime"] = max_playtime_hours.apply(
@@ -107,7 +108,7 @@ def post_sanitize(sanitized_df):
         df["Rating"] = df["Review"]
     else:
         print("Invalid SCORE_MAX value.")
-        exit()
+        sys.exit()
     # Replace "Not Rated" with NaN
     df["Rating"] = df["Rating"].replace(0, np.nan)
     # Convert to integer while keeping NaN
@@ -116,7 +117,7 @@ def post_sanitize(sanitized_df):
     df = df.drop("Review", axis=1)
 
     # Choose longest one among various notes as "Review"
-    NOTE_COL = [
+    note_col = [
         "Review Notes",
         "General Notes",
         "Retired Notes",
@@ -125,7 +126,7 @@ def post_sanitize(sanitized_df):
     ]
     df["Review"] = df.apply(
         lambda row: max(
-            (str(row[col]) if pd.notnull(row[col]) else "" for col in NOTE_COL),
+            (str(row[col]) if pd.notnull(row[col]) else "" for col in note_col),
             key=len,
         ),
         axis=1,
@@ -161,20 +162,20 @@ if len(file_list) > 0:
     for filepath in file_list:
         new_file_name = filepath.replace("HLTB_Games_", "HLTB-sanitized-")
         try:
-            df = pd.read_csv(filepath, skiprows=skip_rows)
-            df = sanitized_dataframe(df)
-            df = post_sanitize(df)
+            df_raw = pd.read_csv(filepath, skiprows=skip_rows)
+            df_mod = sanitized_dataframe(df_raw)
+            df_mod = post_sanitize(df_mod)
 
             # Debug preview
-            print(df.head())
+            print(df_mod.head())
 
             # Export to CSV
-            df.to_csv(new_file_name, index=False, quoting=1)
+            df_mod.to_csv(new_file_name, index=False, quoting=1)
         except pd.errors.ParserError as e:
             error_list.append((filepath, str(e)))
 else:
     print("HLTB exported CSV not found. Please export from options page first.")
-    exit()
+    sys.exit()
 
 # Only create error file if there are errors
 if error_list:

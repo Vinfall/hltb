@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import glob
+import sys
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -92,12 +93,14 @@ def generate_review_wordcloud(df, show_plot):
 file_list = glob.glob("HLTB-sanitized-*.csv")
 if len(file_list) > 0:
     filepath = file_list[0]
-    df = pd.read_csv(filepath)
+    df_raw = pd.read_csv(filepath)
 else:
     print("Sanitized CSV not found. Run `python HLTB-Sanitizer.py` first.")
-    exit()
+    sys.exit()
 
 # Generate and display charts
-plot_storefront_for_pc_platform(df, SHOW_PLOT["storefront_for_pc_platform"])
-plot_platform_distribution_exclude_pc(df, SHOW_PLOT["platform_distribution_exclude_pc"])
-generate_review_wordcloud(df, SHOW_PLOT["review_wordcloud"])
+plot_storefront_for_pc_platform(df_raw, SHOW_PLOT["storefront_for_pc_platform"])
+plot_platform_distribution_exclude_pc(
+    df_raw, SHOW_PLOT["platform_distribution_exclude_pc"]
+)
+generate_review_wordcloud(df_raw, SHOW_PLOT["review_wordcloud"])

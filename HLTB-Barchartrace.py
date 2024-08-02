@@ -3,6 +3,7 @@
 
 import glob
 import importlib
+import sys
 
 import pandas as pd
 
@@ -47,7 +48,7 @@ def calculate_number(df, division):
         current_date = row["Date"]
         current_platform = row[division]
 
-        # Count the occurrences of the current 'Platform'/'Storefront' in the rows with dates up to and including the current date
+        # Count occurrences of current 'Platform'/'Storefront' in the rows with dates to date
         count = (
             df_sorted.loc[df_sorted["Date"] <= current_date]
             .loc[df_sorted[division] == current_platform]
@@ -151,7 +152,7 @@ def sanitized_dataframe_post(df, division):
         )
     else:
         print("Invalid division. Exiting.")
-        exit()
+        sys.exit()
 
     return df
 
@@ -168,25 +169,25 @@ if len(file_list) > 0:
         new_file_name = filepath.replace(
             "HLTB_Games_", "HLTB-barchartrace-by-" + DIVISION.lower() + "-"
         )
-        df = pd.read_csv(filepath, skiprows=skip_rows)
-        df = sanitizer_module.sanitized_dataframe(df)
-        df = sanitizer_module.date_sanitize(df)
+        df_raw = pd.read_csv(filepath, skiprows=skip_rows)
+        df_mod = sanitizer_module.sanitized_dataframe(df_raw)
+        df_mod = sanitizer_module.date_sanitize(df_mod)
 
         # Sort data
-        df = sort_data(df)
+        df_mod = sort_data(df_mod)
 
         # Calculate number of platforms at a specific date
-        df = calculate_number(df, DIVISION)
+        df_mod = calculate_number(df_mod, DIVISION)
 
         # Post sanitization
-        df = sanitized_dataframe_post(df, DIVISION)
+        df_mod = sanitized_dataframe_post(df_mod, DIVISION)
 
         # Debug preview
-        print(df.head())
+        print(df_mod.head())
 
         # Export to CSV
-        df.to_csv(new_file_name, index=False, quoting=1)
+        df_mod.to_csv(new_file_name, index=False, quoting=1)
         print("Now drop output to https://fabdevgit.github.io/barchartrace")
 else:
     print("HLTB sanitized CSV not found.")
-    exit()
+    sys.exit()
