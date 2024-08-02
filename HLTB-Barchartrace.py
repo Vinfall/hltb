@@ -158,6 +158,8 @@ def sanitized_dataframe_post(df, division):
 
 # File naming scheme
 file_list = glob.glob("HLTB_Games_*.csv")
+# Skip problematic lines
+skip_rows = [4130]
 
 # Read CSV file
 if len(file_list) > 0:
@@ -166,7 +168,7 @@ if len(file_list) > 0:
         new_file_name = filepath.replace(
             "HLTB_Games_", "HLTB-barchartrace-by-" + DIVISION.lower() + "-"
         )
-        df = pd.read_csv(filepath)
+        df = pd.read_csv(filepath, skiprows=skip_rows)
         df = sanitizer_module.sanitized_dataframe(df)
         df = sanitizer_module.date_sanitize(df)
 
@@ -180,7 +182,7 @@ if len(file_list) > 0:
         df = sanitized_dataframe_post(df, DIVISION)
 
         # Debug preview
-        print(df)
+        print(df.head())
 
         # Export to CSV
         df.to_csv(new_file_name, index=False, quoting=1)
