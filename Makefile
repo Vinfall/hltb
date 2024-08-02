@@ -50,6 +50,7 @@ plot: $(PLOT)
 # Clean up outputs
 clean:
 	-rm HLTB-sanitized-*.csv HLTB-barchartrace-*.csv output/*.png output/word-frequency.txt
+	-rm output/errors.csv
 
 # Uninstall and purge cache
 uninstall:
