@@ -8,15 +8,22 @@ This is a linear and temporal data analysis & visualization based on the exporte
 
 ## Install
 
-```python
+It's really straightforward:
+
+```sh
 # Clone repo
 git clone https://github.com/Vinfall/hltb
 cd hltb
-# Use venv if needed
-virtualenv .venv
-source ./.venv/bin/activate
-# Install dependencies
-pip install -r requirements.txt
+
+# Set up venv and use
+# NOTE: I assume you use virtualenv, if not
+# replace `virtualenv` with `python -m venv` in Makefile
+make install
+make run
+
+# Clean up
+make clean
+make uninstall
 ```
 
 Now you are good to go ahead.
@@ -29,16 +36,16 @@ Now you are good to go ahead.
 
 The following information may be useful to you:
 
-- [`HLTB-Sanitizer.py`](HLTB-Sanitizer.py): sanitize exported data
-  - Edit `BLOCK_TAGS` to exluded games with certain tags
+- [`hltb_sanitizer.py`](hltb_sanitizer.py): sanitize exported data
+  - Edit `BLOCK_TAGS` to excluded games with certain tags
   - Edit `CUSTOM_TAGS` to recognize your custom tab names
   - Change `SCORE_MAX` to `100` if you prefer Percentage System
-- [`HLTB-Analyzer.py`](HLTB-Analyzer.py): analyze _sanitized_ data
+- [`hltb_analyzer.py`](hltb_analyzer.py): analyze _sanitized_ data
   - Adjust `MIN_TIMES` to change the word frequency limit
   - Adjust `DATE_COL` if you don't always add a completion date
-- [`HLTB-Visualizer.py`](HLTB-Visualizer.py): generate a few ugly charts from _sanitized_ data
+- [`hltb_visualizer.py`](hltb_visualizer.py): generate a few ugly charts from _sanitized_ data
   - Control plot behavior via `SHOW_PLOT`: patch CSV to meet the criteria of [batchartrace](https://github.com/FabDevGit/barchartrace)
-- [`HLTB-Barchartrace.py`](HLTB-Barchartrace.py)
+- [`hltb_barchartrace.py`](hltb_barchartrace.py)
   - Adjust `DATE_COL` if you don't always add a completion date
 
 That's it. You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.

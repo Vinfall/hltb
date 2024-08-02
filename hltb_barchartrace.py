@@ -7,8 +7,8 @@ import sys
 
 import pandas as pd
 
-# Import functions from HLTB-Sanitizer
-sanitizer_module = importlib.import_module("HLTB-Sanitizer")
+# Import functions from hltb_sanitizer
+sanitizer_module = importlib.import_module("hltb_sanitizer")
 
 # Tags to exclude from results, possible to use multiple tags, exmaple: ["Backlog", "Retired"]
 BLOCK_TAGS = ["Blocked"]

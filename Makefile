@@ -7,10 +7,10 @@ PIP = pip
 
 # Dependencies & scripts
 REQUIREMENTS = requirements.txt
-SANITIZER = HLTB-Sanitizer.py
-BARCHART = HLTB-Barchartrace.py
-ANALYZER = HLTB-Analyzer.py
-PLOT = HLTB-Visualizer.py
+SANITIZER = hltb_sanitizer.py
+BARCHART = hltb_barchartrace.py
+ANALYZER = hltb_analyzer.py
+PLOT = hltb_visualizer.py
 
 # Default target, run one by one
 all:
