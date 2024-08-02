@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import glob
+
 import matplotlib.pyplot as plt
 import pandas as pd
-from wordcloud import WordCloud
 from imageio import imread  # noqa: F401
+from wordcloud import WordCloud
+
 # import numpy as np
 
 # Show plot or save to file, True means show plot
@@ -58,7 +60,7 @@ def generate_review_wordcloud(df, show_plot):
         'was', 'as', 'for', 'with', 'on', 'at', 'by', 'from', 'are', 'you',
         'your', 'we', 'our', 'us', 'i', 'me', 'my', 'mine', 'he', 'him',
         'his', 'she', 'her', 'hers', 'they', 'them', 'their', 'theirs',
-        'nan', 'its', 'also', 'im', 'nan'}
+        'nan', 'its', 'also', 'im'}
     # fmt: on
 
     # Concatenate all the reviews into a single string

@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import glob
-import numpy as np
-import pandas as pd
 import importlib
+
+import pandas as pd
 
 # Import functions from HLTB-Sanitizer
 sanitizer_module = importlib.import_module("HLTB-Sanitizer")
@@ -42,7 +42,7 @@ def calculate_number(df, division):
     number_values = []
 
     # Iterate over each row in the sorted DataFrame
-    for index, row in df_sorted.iterrows():
+    for _index, row in df_sorted.iterrows():
         # Get the current 'Date' and 'Platform'/'Storefront' values
         current_date = row["Date"]
         current_platform = row[division]

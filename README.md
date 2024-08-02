@@ -28,18 +28,18 @@ Now you are good to go ahead.
 1. Run the scripts.
 
 The following information may be useful to you:
+
 - [`HLTB-Sanitizer.py`](HLTB-Sanitizer.py): sanitize exported data
   - Edit `BLOCK_TAGS` to exluded games with certain tags
   - Edit `CUSTOM_TAGS` to recognize your custom tab names
   - Change `SCORE_MAX` to `100` if you prefer Percentage System
-- [`HLTB-Analyzer.py`](HLTB-Analyzer.py): analyze *sanitized* data
+- [`HLTB-Analyzer.py`](HLTB-Analyzer.py): analyze _sanitized_ data
   - Adjust `MIN_TIMES` to change the word frequency limit
   - Adjust `DATE_COL` if you don't always add a completion date
-- [`HLTB-Visualizer.py`](HLTB-Visualizer.py): generate a few ugly charts from *sanitized* data
+- [`HLTB-Visualizer.py`](HLTB-Visualizer.py): generate a few ugly charts from _sanitized_ data
   - Control plot behavior via `SHOW_PLOT`: patch CSV to meet the criteria of [batchartrace](https://github.com/FabDevGit/barchartrace)
 - [`HLTB-Barchartrace.py`](HLTB-Barchartrace.py)
   - Adjust `DATE_COL` if you don't always add a completion date
-
 
 That's it. You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
 

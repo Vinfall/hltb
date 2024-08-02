@@ -2,12 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import glob
-import pandas as pd
-from collections import Counter
 import re
-# import os
-# import numpy as np
-# import matplotlib.pyplot as plt
+from collections import Counter
+
+import pandas as pd
 
 # Minimum threshold of words to show in word frequency analysis
 MIN_TIMES = 10
