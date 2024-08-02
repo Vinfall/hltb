@@ -152,13 +152,16 @@ def post_sanitize(sanitized_df):
 
 # Read CSV file
 file_list = glob.glob("HLTB_Games_*.csv")
+# Catch/Skip problematic lines
 error_list = []
+skip_rows = [4130]
+
 if len(file_list) > 0:
     # Sanitize every file
     for filepath in file_list:
         new_file_name = filepath.replace("HLTB_Games_", "HLTB-sanitized-")
         try:
-            df = pd.read_csv(filepath)
+            df = pd.read_csv(filepath, skiprows=skip_rows)
             df = sanitized_dataframe(df)
             df = post_sanitize(df)
 
