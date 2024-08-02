@@ -1,4 +1,7 @@
-# Commands
+# Varables
+VENV = .venv
+# PYTHON = $(VENV)/bin/python
+# PIP = $(VENV)/bin/pip
 PYTHON = python
 PIP = pip
 
@@ -15,8 +18,20 @@ all:
 	$(MAKE) sanitize
 	$(MAKE) analyze plot
 
+# make run
+run:
+	$(MAKE) sanitize
+	$(MAKE) analyze
+	$(MAKE) plot
+
 # Install dependencies for Python
-install: $(REQUIREMENTS)
+install: $(VENV)
+	$(PIP) install -r $(REQUIREMENTS)
+
+$(VENV):
+	@echo "Setting up virtualenv..."
+	virtualenv $(VENV)
+	source $(VENV)/bin/activate; \
 	$(PIP) install -r $(REQUIREMENTS)
 
 # Sanitize data
@@ -35,3 +50,10 @@ plot: $(PLOT)
 # Clean up outputs
 clean:
 	-rm HLTB-sanitized-*.csv HLTB-barchartrace-*.csv output/*.png output/word-frequency.txt
+
+# Uninstall and purge cache
+uninstall:
+	@echo "Cleaning up..."
+	@deactivate || true
+	rm -rf $(VENV)
+	pip cache purge || true
