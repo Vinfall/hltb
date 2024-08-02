@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import csv
 import glob
 
 import numpy as np
@@ -151,19 +152,30 @@ def post_sanitize(sanitized_df):
 
 # Read CSV file
 file_list = glob.glob("HLTB_Games_*.csv")
+error_list = []
 if len(file_list) > 0:
     # Sanitize every file
     for filepath in file_list:
         new_file_name = filepath.replace("HLTB_Games_", "HLTB-sanitized-")
-        df = pd.read_csv(filepath)
-        df = sanitized_dataframe(df)
-        df = post_sanitize(df)
+        try:
+            df = pd.read_csv(filepath)
+            df = sanitized_dataframe(df)
+            df = post_sanitize(df)
 
-        # Debug preview
-        print(df)
+            # Debug preview
+            print(df.head())
 
-        # Export to CSV
-        df.to_csv(new_file_name, index=False, quoting=1)
+            # Export to CSV
+            df.to_csv(new_file_name, index=False, quoting=1)
+        except pd.errors.ParserError as e:
+            error_list.append((filepath, str(e)))
 else:
     print("HLTB exported CSV not found. Please export from options page first.")
     exit()
+
+# Only create error file if there are errors
+if error_list:
+    with open("output/errors.csv", "w", newline="", encoding="utf-8") as error_f:
+        error_writer = csv.writer(error_f)
+        error_writer.writerow(["Filepath", "Error"])
+        error_writer.writerows(error_list)
