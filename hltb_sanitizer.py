@@ -89,10 +89,11 @@ def post_sanitize(sanitized_df):
     # Choose the largest one in time_col
     max_playtime = df[time_col].max(axis=1)
     # Convert back to string as "Playtime"
-    max_playtime_hours = max_playtime.dt.total_seconds().div(3600)
-    df["Playtime"] = max_playtime_hours.apply(
-        lambda x: "{:02d}:{:02d}:{:02d}".format(
-            int(x // 1), int((x % 1) * 60), int((x * 60) % 60)
+    df["Playtime"] = max_playtime.apply(
+        lambda x: "{:02}:{:02}:{:02}".format(
+            int(x.total_seconds() // 3600),
+            int((x.total_seconds() % 3600) // 60),
+            int(x.total_seconds() % 60),
         )
     )
 
