@@ -160,7 +160,7 @@ def sanitized_dataframe_post(df, division):
 # File naming scheme
 file_list = glob.glob("HLTB_Games_*.csv")
 # Skip problematic lines
-skip_rows = [4160]
+skip_rows = []
 
 # Read CSV file
 if len(file_list) > 0:

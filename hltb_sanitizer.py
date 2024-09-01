@@ -86,7 +86,7 @@ def post_sanitize(sanitized_df):
     df[time_col] = df[time_col].apply(pd.to_timedelta, errors="coerce")
     # Exclude NaN line
     df = df.dropna(subset=time_col, how="all")
-    # Choose the maximum one
+    # Choose the largest one in time_col
     max_playtime = df[time_col].max(axis=1)
     # Convert back to string as "Playtime"
     max_playtime_hours = max_playtime.dt.total_seconds().div(3600)
@@ -155,7 +155,7 @@ def post_sanitize(sanitized_df):
 file_list = glob.glob("HLTB_Games_*.csv")
 # Catch/Skip problematic lines
 error_list = []
-skip_rows = [4160]
+skip_rows = []
 
 if len(file_list) > 0:
     # Sanitize every file
