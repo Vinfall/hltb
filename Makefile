@@ -20,6 +20,7 @@ all:
 
 # make run
 run:
+	$(MAKE) clean
 	$(MAKE) sanitize
 	$(MAKE) analyze
 	$(MAKE) plot
