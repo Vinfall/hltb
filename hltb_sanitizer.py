@@ -155,7 +155,7 @@ def post_sanitize(sanitized_df):
 file_list = glob.glob("HLTB_Games_*.csv")
 # Catch/Skip problematic lines
 error_list = []
-skip_rows = [4130]
+skip_rows = [4160]
 
 if len(file_list) > 0:
     # Sanitize every file
