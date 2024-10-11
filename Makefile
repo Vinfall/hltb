@@ -14,16 +14,21 @@ PLOT = hltb_visualizer.py
 
 # Default target, run one by one
 all:
+	$(MAKE) check
 	$(MAKE) install
 	$(MAKE) sanitize
 	$(MAKE) analyze plot
 
 # make run
 run:
+	$(MAKE) check
 	$(MAKE) clean
 	$(MAKE) sanitize
 	$(MAKE) analyze
 	$(MAKE) plot
+
+check:
+	$(PYTHON) debug.py
 
 # Install dependencies for Python
 install: $(VENV)
