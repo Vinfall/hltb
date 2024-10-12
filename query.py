@@ -14,14 +14,14 @@ def query_csv(input_csv, output_csv, sql_query):
         query = file.read()
 
     # Create a memory SQLite DB
-    DB_CONN = sqlite3.connect(":memory:")
+    conn = sqlite3.connect(":memory:")
     df = pd.read_csv(input_csv)
-    df.to_sql("HLTB", DB_CONN, index=False, if_exists="replace")
+    df.to_sql("HLTB", conn, index=False, if_exists="replace")
 
-    result_df = pd.read_sql_query(query, DB_CONN)
+    result_df = pd.read_sql_query(query, conn)
     result_df.to_csv(output_csv, index=False)
 
-    DB_CONN.close()
+    conn.close()
 
 
 file_list = glob.glob("HLTB-sanitized-*.csv")
