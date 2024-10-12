@@ -3,6 +3,7 @@
 
 import glob
 import sqlite3
+import sys
 
 import pandas as pd
 
@@ -30,3 +31,6 @@ if len(file_list) > 0:
     for filepath in file_list:
         new_file_name = filepath.replace("HLTB-sanitized-", "query-")
         query_csv(filepath, new_file_name, "monthly.sql")
+else:
+    print("Sanitized CSV not found. Run `python hltb_sanitizer.py` first.")
+    sys.exit()
