@@ -49,13 +49,17 @@ sanitize: $(SANITIZER)
 analyze: $(ANALYZER)
 	$(PYTHON) $(ANALYZER)
 
+# Query structured data
+query:
+	$(PYTHON) query.py
+
 # Generate plots
 plot: $(PLOT)
 	$(PYTHON) $(PLOT)
 
 # Clean up outputs
 clean:
-	-rm HLTB-sanitized-*.csv HLTB-barchartrace-*.csv output/*.png output/word-frequency.txt
+	-rm HLTB-sanitized-*.csv HLTB-barchartrace-*.csv query-*.csv output/*.png output/word-frequency.txt
 	-rm output/errors.csv
 
 # Uninstall and purge cache

@@ -4,6 +4,7 @@ venv
 virtualenv
 # CSV
 HLTB*.csv
+query-*.csv
 !example/HLTB_Games_example.csv
 # Output
 output/*
