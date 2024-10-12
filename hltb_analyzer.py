@@ -2,11 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import glob
+import importlib
 import re
 import sys
 from collections import Counter
 
 import pandas as pd
+
+# Import functions from query
+query_module = importlib.import_module("query")
 
 # Minimum threshold of words to show in word frequency analysis
 MIN_TIMES = 10
@@ -15,12 +19,8 @@ DATE_COL = "Finished"
 
 
 def calculate_month_playtime(df):
-    # Get the current date
-    today = pd.to_datetime("today").normalize()  # noqa
-
     # Get the start and end dates of the month
-    month_start = (today - pd.offsets.MonthBegin(2)).strftime("%Y-%m-%d")
-    month_end = (today - pd.offsets.MonthEnd(1)).strftime("%Y-%m-%d")
+    month_start, month_end = query_module.get_last_month_dates()
 
     # Convert columns to Timestamp
     df["Date"] = pd.to_datetime(df["Date"])
