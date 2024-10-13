@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 # Tags to exclude from results, possible to use multiple tags, exmaple: ["Backlog", "Retired"]
-BLOCK_TAGS = ["Blocked"]
+BLOCK_TAGS = ["Ignored"]
 # Custom tab names
 CUSTOM_TAGS = ["Stalled"]
 # Rating base, accepted values: 10, 100

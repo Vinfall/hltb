@@ -11,7 +11,7 @@ import pandas as pd
 sanitizer_module = importlib.import_module("hltb_sanitizer")
 
 # Tags to exclude from results, possible to use multiple tags, exmaple: ["Backlog", "Retired"]
-BLOCK_TAGS = ["Blocked"]
+BLOCK_TAGS = ["Ignored"]
 # Custom tab names
 CUSTOM_TAGS = ["Stalled"]
 # Preferred finished date, accepted values: "Finished", "Lastmod"
