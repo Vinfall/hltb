@@ -12,7 +12,7 @@ def get_last_month_dates():
     # Get the current date
     today = pd.to_datetime("today").normalize()  # noqa
 
-    # Get the start and end dates of the month
+    # Get the start and end dates of last month
     month_start = (today - pd.offsets.MonthBegin(2)).strftime("%Y-%m-%d")
     month_end = (today - pd.offsets.MonthEnd(1)).strftime("%Y-%m-%d")
 
