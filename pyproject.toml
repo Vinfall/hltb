@@ -1,6 +1,6 @@
 [project]
 name = "hltb"
-version = "6.2.0"
+version = "7.0.0-alpha"
 description = "HLTB Linear & Temporal Breakdown scripts"
 keywords = ["data-visualization", "hltb", "howlongtobeat", "game"]
 requires-python = ">=3.12"
