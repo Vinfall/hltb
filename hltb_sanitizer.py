@@ -44,11 +44,14 @@ def sanitized_dataframe(df):
 
 def date_sanitize(df):
     # df = sanitized_df.copy()
-    # Use "Added" column as "Date"
+
+    # Prefer "Start Date" over "Added" column as "Date"
     df["Added"] = pd.to_datetime(
         df["Added"], format="%Y-%m-%d %H:%M:%S", errors="coerce"
     )
-    df["Date"] = df["Added"].dt.strftime("%Y-%m-%d")
+    df["Started"] = pd.to_datetime(df["Start Date"], format="%Y-%m-%d", errors="coerce")
+    df["Date"] = df["Started"].combine_first(df["Added"]).dt.strftime("%Y-%m-%d")
+
     # Choose nearest date between "Completion Date" & "Updated" as "Lastmod"
     df["Finished"] = pd.to_datetime(
         df["Completion Date"], format="%Y-%m-%d", errors="coerce"

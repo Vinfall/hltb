@@ -14,5 +14,5 @@ if len(file_list) > 0:
             reader = csv.reader(file)
             for i, line in enumerate(reader, start=1):
                 # print invalid lines
-                if len(line) != 32:
+                if len(line) != 33:
                     print(f"Line {i} has {len(line)} fields: {line}")
