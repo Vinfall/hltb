@@ -189,5 +189,5 @@ if len(file_list) > 0:
         df_mod.to_csv(new_file_name, index=False, quoting=1)
         print("Now drop output to https://fabdevgit.github.io/barchartrace")
 else:
-    print("HLTB sanitized CSV not found.")
+    print("HLTB sanitized CSV not found. Run `python hltb_sanitizer.py` first.")
     sys.exit()
