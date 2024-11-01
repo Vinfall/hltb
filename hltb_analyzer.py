@@ -19,6 +19,7 @@ DATE_COL = "Finished"
 
 
 def calculate_month_playtime(df):
+    # TODO: move to query.py
     # Get the start and end dates of the month
     month_start, month_end = query_module.get_last_month_dates()
 
