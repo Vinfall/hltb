@@ -5,9 +5,13 @@ SELECT "Title",
     "Rating",
     "Playtime"
 FROM "HLTB"
-WHERE "Lastmod" BETWEEN '2024-09-01' AND '2024-09-30'
-    AND (
+WHERE "Finished" BETWEEN '2024-09-01' AND '2024-09-30' -- finished this month
+    OR (
         "Finished" IS NULL
-        OR "Finished" BETWEEN '2024-09-01' AND '2024-09-30'
+        AND NOT "Date" > '2024-09-30' -- Playing/Retired/Stalled
+        AND NOT (
+            "Date" < '2024-09-01' -- excluded earlier games
+            AND NOT "Status" = 'Playing'
+        )
     ) -- would get replaced in query.py
 ORDER BY "Playtime" DESC;
