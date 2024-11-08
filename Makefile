@@ -27,11 +27,10 @@ run:
 	$(MAKE) analyze
 	$(MAKE) plot
 
-check:
+check: ## check invalid lines
 	$(PYTHON) debug.py
 
-# Install dependencies for Python
-install: $(VENV)
+install: $(VENV) ## install dependencies in venv
 	$(PIP) install -r $(REQUIREMENTS)
 
 $(VENV):
@@ -40,31 +39,31 @@ $(VENV):
 	source $(VENV)/bin/activate; \
 	$(PIP) install -r $(REQUIREMENTS)
 
-# Sanitize data
-sanitize: $(SANITIZER)
+sanitize: $(SANITIZER) ## sanitize data
 	$(PYTHON) $(SANITIZER)
 	$(PYTHON) $(BARCHART)
 
-# Analyze data
-analyze: $(ANALYZER)
+analyze: $(ANALYZER) ## analyze data
 	$(PYTHON) $(ANALYZER)
 
-# Query structured data
-query:
+query: ## generate monthly playlist
 	$(PYTHON) query.py
 
-# Generate plots
-plot: $(PLOT)
+plot: $(PLOT) ## generate plots
 	$(PYTHON) $(PLOT)
 
-# Clean up outputs
-clean:
+clean: ## clean up outputs
 	-rm HLTB-sanitized-*.csv HLTB-barchartrace-*.csv query-*.csv output/*.png output/word-frequency.txt
 	-rm output/errors.csv
 
-# Uninstall and purge cache
-uninstall:
+uninstall: ## uninstall venv & clean cache
 	@echo "Cleaning up..."
 	@deactivate || true
 	rm -rf $(VENV)
 	pip cache purge || true
+
+help: ## show this help
+	@echo "Specify a command:"
+	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[0;36m%-12s\033[m %s\n", $$1, $$2}'
+	@echo ""
+.PHONY: help
