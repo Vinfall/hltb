@@ -8,7 +8,10 @@ This is a linear and temporal data analysis & visualization based on the exporte
 
 ## Install
 
-It's really straightforward:
+> [!TIP]
+> For a complete list of available commands, run `make help`.
+
+It's really straightforward though:
 
 ```sh
 # Clone repo
@@ -16,7 +19,7 @@ git clone https://github.com/Vinfall/hltb
 cd hltb
 
 # Set up venv and use
-# NOTE: I assume you use virtualenv, if not
+# NOTE: I assume you use virtualenv, if not,
 # replace `virtualenv` with `python -m venv` in Makefile
 make install
 make run
