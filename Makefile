@@ -39,7 +39,7 @@ $(VENV):
 	source $(VENV)/bin/activate; \
 	$(PIP) install -r $(REQUIREMENTS)
 
-sanitize: check ## sanitize data
+sanitize: clean check ## sanitize data
 	$(PYTHON) $(SANITIZER)
 	$(PYTHON) $(BARCHART)
 
@@ -53,7 +53,7 @@ plot: sanitize ## generate plots
 	$(PYTHON) $(PLOT)
 
 clean: ## clean up outputs
-	-rm HLTB-sanitized-*.csv HLTB-barchartrace-*.csv query-*.csv output/*.png output/word-frequency.txt
+	-rm HLTB-sanitized-*.csv HLTB-barchartrace-*.csv monthly-*.csv output/*.png output/word-frequency.txt
 	-rm output/errors.csv
 
 uninstall: ## uninstall venv & clean cache
