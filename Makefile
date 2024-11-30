@@ -39,17 +39,17 @@ $(VENV):
 	source $(VENV)/bin/activate; \
 	$(PIP) install -r $(REQUIREMENTS)
 
-sanitize: $(SANITIZER) ## sanitize data
+sanitize: check ## sanitize data
 	$(PYTHON) $(SANITIZER)
 	$(PYTHON) $(BARCHART)
 
-analyze: $(ANALYZER) ## analyze data
+analyze: sanitize ## analyze data
 	$(PYTHON) $(ANALYZER)
 
-query: ## generate monthly playlist
+query: sanitize ## generate monthly playlist
 	$(PYTHON) query.py
 
-plot: $(PLOT) ## generate plots
+plot: sanitize ## generate plots
 	$(PYTHON) $(PLOT)
 
 clean: ## clean up outputs
