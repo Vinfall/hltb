@@ -6,6 +6,11 @@ virtualenv
 HLTB*.csv
 query-*.csv
 !example/HLTB_Games_example.csv
+# Database
+*.db
+*.db3
+*.sqlite
+*.sqlite3
 # Output
 output/*
 !output/.gitkeep
