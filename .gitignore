@@ -1,16 +1,17 @@
-# Virtual environment
+# venv
 .venv
 venv
 virtualenv
-# CSV
+# data
+stopwords-en.txt
 HLTB*.csv
 monthly-*.csv
 !example/HLTB_Games_example.csv
-# Database
+# database
 *.db
 *.db3
 *.sqlite
 *.sqlite3
-# Output
+# output
 output/*
 !output/.gitkeep

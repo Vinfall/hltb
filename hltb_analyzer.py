@@ -63,6 +63,11 @@ def calculate_word_frequency(df, min_times):
         'nan', 'its', 'also', 'im'}
     # fmt: on
 
+    # Read stop words from stopwords-iso file
+    # https://raw.githubusercontent.com/stopwords-iso/stopwords-en/master/stopwords-en.txt
+    # with open("stopwords-en.txt", "r", encoding="utf-8") as file:
+    #     stop_words = set(file.read().splitlines())
+
     # Tokenize the reviews
     reviews = reviews.str.split()
 
