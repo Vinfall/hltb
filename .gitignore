@@ -7,6 +7,9 @@ stopwords-en.txt
 HLTB*.csv
 monthly-*.csv
 !example/HLTB_Games_example.csv
+*.tsv
+*.vdj
+monthly-*.sh
 # database
 *.db
 *.db3
