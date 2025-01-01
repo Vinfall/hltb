@@ -1,6 +1,8 @@
 SELECT "Title",
-    "Platform",
-    "Storefront",
+    CASE
+        WHEN "Platform" = 'PC' THEN "Storefront" -- merge store into platform
+        ELSE "Platform" -- could be wrong, e.g. emulator as remaster
+    END AS "Platform",
     "Status",
     "Rating",
     "Playtime"
