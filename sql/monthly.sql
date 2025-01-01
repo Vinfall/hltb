@@ -1,6 +1,7 @@
 SELECT "Title",
     CASE
-        WHEN "Platform" = 'PC' THEN "Storefront" -- merge store into platform
+        WHEN "Storefront" = 'itch.io' THEN "itch" -- prioritize itch
+        WHEN "Platform" = 'PC' THEN "Storefront" -- PC stores
         ELSE "Platform" -- could be wrong, e.g. emulator as remaster
     END AS "Platform",
     "Status",
