@@ -14,7 +14,7 @@ def get_last_month_dates():
 
     # Get the start and end dates of last month
     month_start = "2024-12-01"
-    month_end = "2024-12-30"
+    month_end = "2024-12-31"
     # month_start = (today - pd.offsets.MonthBegin(1)).strftime("%Y-%m-%d")
     # month_end = (today - pd.offsets.MonthEnd(1)).strftime("%Y-%m-%d")
     print(month_start, month_end)
