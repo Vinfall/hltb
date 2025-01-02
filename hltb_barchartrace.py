@@ -18,10 +18,18 @@ CUSTOM_TAGS = ["Stalled"]
 DATE_COL = "Finished"
 # Accepted vlaues: "Platform", "Storefront"
 DIVISION = "Platform"
+# ISO Date range
+DATE_RANGE = True
+DATE_START = "2024-01-01"
+DATE_END = "2024-12-31"
 
 
 # Organize sanitized CSV
 def sort_data(df):
+    # Filter data range
+    if DATE_RANGE:
+        df = df[(df["Date"] >= DATE_START) & (df["Date"] <= DATE_END)]
+
     # Define the sort keys in the desired order
     sort_keys = ["Date", DATE_COL, "Platform", "Storefront", "Title"]
 

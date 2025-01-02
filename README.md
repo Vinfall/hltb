@@ -47,6 +47,7 @@ The following information may be useful to you:
   - Control plot behavior via `SHOW_PLOT`: patch CSV to meet the criteria of [batchartrace](https://github.com/FabDevGit/barchartrace)
 - [`hltb_barchartrace.py`](hltb_barchartrace.py)
   - Adjust `DATE_COL` if you don't always add a completion date
+  - Set `DATE_RANGE` to `False` if you want full data
 - [`debug.py`](debug.py): figure out the real line number of invalid lines, the one pandas reported is not trustworthy
 
 That's it. You can find example charts and other information on [my blog](https://blog.vinfall.com/posts/2023/11/hltb/), or just read code comments.
