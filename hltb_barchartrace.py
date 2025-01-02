@@ -120,17 +120,21 @@ def sanitized_dataframe_post(df, division):
                 "PlayStation 4": "PS4",
                 "PlayStation 3": "PS3",
                 "PlayStation 2": "PS2",
-                "PlayStation 1": "PS1",
+                "PlayStation": "PSX",
                 "Sega Master System": "SMS",
                 "Sega Mega Drive/Genesis": "MD",
+                "Sega CD": "Mega-CD",
                 "Sega Saturn": "SS",
                 "Sega Game Gear": "GG",
+                "Dreamcast": "DC",
                 "Neo Geo Pocket": "NGPC",
+                "Neo Geo": "NeoGeo",
                 "WonderSwan": "WSC",
                 "NEC PC-98": "PC-98",
                 "TurboGrafx-16": "PCE",
                 "TurboGrafx-CD": "PCE-CD",
                 "Oculus Quest": "Meta Quest",
+                "FM Towns": "Towns",
             }
         )
     elif division == "Storefront":
