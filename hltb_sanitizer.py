@@ -12,8 +12,10 @@ import pandas as pd
 BLOCK_TAGS = ["Ignored"]
 # Custom tab names
 CUSTOM_TAGS = ["Stalled"]
-# Rating base, accepted values: 10, 100
+# Rating scale, accepted values: 10, 100
 SCORE_MAX = 10
+# Keep entries with null time
+KEEP_NA_TIME = True
 
 
 # Deal with caveats in exported CSV
@@ -88,15 +90,20 @@ def post_sanitize(sanitized_df):
     # Convert to time type
     df[time_col] = df[time_col].apply(pd.to_timedelta, errors="coerce")
     # Exclude NaN line
-    df = df.dropna(subset=time_col, how="all")
+    if not KEEP_NA_TIME:
+        df = df.dropna(subset=time_col, how="all")
     # Choose the largest one in time_col
     max_playtime = df[time_col].max(axis=1)
     # Convert back to string as "Playtime"
     df["Playtime"] = max_playtime.apply(
-        lambda x: "{:02}:{:02}:{:02}".format(
-            int(x.total_seconds() // 3600),
-            int((x.total_seconds() % 3600) // 60),
-            int(x.total_seconds() % 60),
+        lambda x: (
+            "00:00:00"
+            if pd.isna(x)
+            else "{:02}:{:02}:{:02}".format(
+                int(x.total_seconds() // 3600),
+                int((x.total_seconds() % 3600) // 60),
+                int(x.total_seconds() % 60),
+            )
         )
     )
 
@@ -155,6 +162,80 @@ def post_sanitize(sanitized_df):
     return df
 
 
+def minify_platform(df, division):
+    # Use shorter alias for platform/storefront
+    if division == "Platform":
+        df["Platform"] = df["Platform"].replace(
+            {
+                "NES": "FC",
+                "Super Nintendo": "SFC",
+                "Nintendo DS": "NDS",
+                "Nintendo 3DS": "3DS",
+                "Nintendo 64": "N64",
+                "Nintendo GameCube": "NGC",
+                "Nintendo Switch": "Switch",
+                "Game Boy": "GB",
+                "Game Boy Color": "GBC",
+                "Game Boy Advance": "GBA",
+                "Xbox 360": "X360",
+                "Xbox Series X/S": "XSS",
+                "PlayStation VR": "PSVR",
+                "PlayStation Vita": "PSV",
+                "PlayStation Portable": "PSP",
+                "PlayStation 5": "PS5",
+                "PlayStation 4": "PS4",
+                "PlayStation 3": "PS3",
+                "PlayStation 2": "PS2",
+                "PlayStation": "PSX",
+                "Sega Master System": "SMS",
+                "Sega Mega Drive/Genesis": "MD",
+                "Sega CD": "Mega-CD",
+                "Sega Saturn": "SS",
+                "Sega Game Gear": "GG",
+                "Dreamcast": "DC",
+                "Neo Geo Pocket": "NGPC",
+                "Neo Geo": "NeoGeo",
+                "WonderSwan": "WSC",
+                "NEC PC-98": "PC-98",
+                "TurboGrafx-16": "PCE",
+                "TurboGrafx-CD": "PCE-CD",
+                "Oculus Quest": "Meta Quest",
+                "FM Towns": "Towns",
+            }
+        )
+    elif division == "Storefront":
+        df["Storefront"] = df["Storefront"].replace(
+            {
+                "Direct Download": "DL",
+                "Xbox Game Pass": "XGP",
+                "Xbox Games w/ Gold": "XGP",
+                "Xbox Store": "Xbox",
+                "Microsoft Store": "Microsoft",
+                "Ubisoft Connect": "Ubisoft",
+                "Nintendo eShop": "eShop",
+                "Google Play Pass": "Play Pass",
+                "Epic Games": "EGS",
+                "PlayStation Plus": "PS+",
+                "PlayStation Store": "PSN",
+                "itch.io": "itch",
+            }
+        )
+    else:
+        print("Invalid division. Exiting.")
+        sys.exit()
+
+    return df
+
+
+def dirty_clean(df):
+    # Use shorter alias
+    minify_platform(df, "Platform")
+    minify_platform(df, "Storefront")
+    # Merge storefront into platform
+
+    return True
+
+
 # Read CSV file
 file_list = glob.glob("HLTB_Games_*.csv")
 # Catch/Skip problematic lines
@@ -167,17 +248,16 @@ if len(file_list) > 1:
 elif len(file_list) == 1:
     # for filepath in file_list:
     filepath = file_list[0]
-    NEW_FILE = "clean.csv"
     try:
         df_raw = pd.read_csv(filepath, skiprows=skip_rows)
         df_mod = sanitized_dataframe(df_raw)
         df_mod = post_sanitize(df_mod)
 
         # Debug preview
-        print(df_mod.head())
+        # print(df_mod.head())
 
         # Export to CSV
-        df_mod.to_csv(NEW_FILE, index=False, quoting=1)
+        df_mod.to_csv("clean.csv", index=False, quoting=1)
     except pd.errors.ParserError as e:
         error_list.append((filepath, str(e)))
 else:

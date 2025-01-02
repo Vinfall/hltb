@@ -96,71 +96,6 @@ def calculate_number(df, division):
     return merged_df
 
 
-def sanitized_dataframe_post(df, division):
-    # Use shorter alias for platform/storefront
-    if division == "Platform":
-        df["Platform"] = df["Platform"].replace(
-            {
-                "NES": "FC",
-                "Super Nintendo": "SFC",
-                "Nintendo DS": "NDS",
-                "Nintendo 3DS": "3DS",
-                "Nintendo 64": "N64",
-                "Nintendo GameCube": "NGC",
-                "Nintendo Switch": "Switch",
-                "Game Boy": "GB",
-                "Game Boy Color": "GBC",
-                "Game Boy Advance": "GBA",
-                "Xbox 360": "X360",
-                "Xbox Series X/S": "XSS",
-                "PlayStation VR": "PSVR",
-                "PlayStation Vita": "PSV",
-                "PlayStation Portable": "PSP",
-                "PlayStation 5": "PS5",
-                "PlayStation 4": "PS4",
-                "PlayStation 3": "PS3",
-                "PlayStation 2": "PS2",
-                "PlayStation": "PSX",
-                "Sega Master System": "SMS",
-                "Sega Mega Drive/Genesis": "MD",
-                "Sega CD": "Mega-CD",
-                "Sega Saturn": "SS",
-                "Sega Game Gear": "GG",
-                "Dreamcast": "DC",
-                "Neo Geo Pocket": "NGPC",
-                "Neo Geo": "NeoGeo",
-                "WonderSwan": "WSC",
-                "NEC PC-98": "PC-98",
-                "TurboGrafx-16": "PCE",
-                "TurboGrafx-CD": "PCE-CD",
-                "Oculus Quest": "Meta Quest",
-                "FM Towns": "Towns",
-            }
-        )
-    elif division == "Storefront":
-        df["Storefront"] = df["Storefront"].replace(
-            {
-                "Direct Download": "DL",
-                "Xbox Game Pass": "XGP",
-                "Xbox Games w/ Gold": "XGP",
-                "Xbox Store": "Xbox",
-                "Microsoft Store": "Microsoft",
-                "Ubisoft Connect": "Ubisoft",
-                "Nintendo eShop": "eShop",
-                "Google Play Pass": "Play Pass",
-                "Epic Games": "EGS",
-                "PlayStation Plus": "PS+",
-                "PlayStation Store": "PSN",
-                "itch.io": "itch",
-            }
-        )
-    else:
-        print("Invalid division. Exiting.")
-        sys.exit()
-
-    return df
-
-
 # File naming scheme
 file_list = glob.glob("HLTB_Games_*.csv")
 # Skip problematic lines
@@ -182,7 +117,7 @@ if len(file_list) > 0:
         df_mod = calculate_number(df_mod, DIVISION)
 
         # Post sanitization
-        df_mod = sanitized_dataframe_post(df_mod, DIVISION)
+        df_mod = sanitizer_module.minify_platform(df_mod, DIVISION)
 
         # Debug preview
         # print(df_mod.head())
