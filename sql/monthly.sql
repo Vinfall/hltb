@@ -1,9 +1,5 @@
 SELECT "Title",
-    CASE
-        WHEN "Storefront" = 'itch.io' THEN "itch" -- prioritize itch
-        WHEN "Platform" = 'PC' THEN "Storefront" -- PC stores
-        ELSE "Platform" -- could be wrong, e.g. emulator as remaster
-    END AS "Platform",
+    "Platform",
     "Status",
     "Rating",
     "Playtime"

@@ -173,6 +173,7 @@ def minify_platform(df, division):
                 "Nintendo 3DS": "3DS",
                 "Nintendo 64": "N64",
                 "Nintendo GameCube": "NGC",
+                "Wii U": "WiiU",
                 "Nintendo Switch": "Switch",
                 "Game Boy": "GB",
                 "Game Boy Color": "GBC",
@@ -214,7 +215,7 @@ def minify_platform(df, division):
                 "Ubisoft Connect": "Ubisoft",
                 "Nintendo eShop": "eShop",
                 "Google Play Pass": "Play Pass",
-                "Epic Games": "EGS",
+                "Epic Games": "Epic",
                 "PlayStation Plus": "PS+",
                 "PlayStation Store": "PSN",
                 "itch.io": "itch",
@@ -228,12 +229,25 @@ def minify_platform(df, division):
 
 
 def dirty_clean(df):
+    df = df.drop(["Review"], axis=1)
     # Use shorter alias
     minify_platform(df, "Platform")
     minify_platform(df, "Storefront")
-    # Merge storefront into platform
 
-    return True
+    # Merge storefront into platform
+    # could be wrong, e.g. emulator as remaster
+
+    cons = ["itch", "Play Pass", "EA Play", "XGP"]
+    conditions = [
+        df["Storefront"].isin(cons),
+        df["Platform"] == "PC",
+        df["Platform"] == "Mobile",
+    ]
+    choices = [df["Storefront"]] * len(conditions)
+    # Use np.select to apply the conditions and choices
+    df["Platform"] = np.select(conditions, choices, default=df["Platform"])
+
+    return df
 
 
 # Read CSV file
@@ -258,6 +272,10 @@ elif len(file_list) == 1:
 
         # Export to CSV
         df_mod.to_csv("clean.csv", index=False, quoting=1)
+
+        df_mod = dirty_clean(df_mod)
+        df_mod.to_csv("dirty.csv", index=False, quoting=1)
+
     except pd.errors.ParserError as e:
         error_list.append((filepath, str(e)))
 else:

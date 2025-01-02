@@ -62,7 +62,7 @@ def query_csv(input_csv, output_csv, sql_query):
     conn.close()
 
 
-file_list = glob.glob("clean.csv")
+file_list = glob.glob("dirty.csv")
 
 if len(file_list) > 0:
     # Read every matched file

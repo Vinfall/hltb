@@ -51,18 +51,18 @@ def playtime(filename):
 
 def rating(filename):
     df = pd.read_csv(filename)
+    df.dropna(subset=["Rating"], inplace=True)
 
-    filtered_df = df[df["Rating"].notna()]
     # Debug preview
-    # print(filtered_df.head())
+    # print(df)
 
     # Rated titles
-    m = len(filtered_df)
+    m = len(df)
     # Average rating, did not consider 100/100 scale rating
-    n = round(filtered_df["Rating"].mean(), 3)
+    n = round(df["Rating"].mean(), 3)
     # SD, same result as VAR.P in Excel
     # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.std.html
-    sd = round(filtered_df["Rating"].var(ddof=0), 3)
+    sd = round(df["Rating"].var(ddof=0), 3)
 
     print(f"∑={m}, μ={n}/10, σ²={sd}")
 
