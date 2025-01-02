@@ -12,7 +12,7 @@ query_module = importlib.import_module("query")
 DATE_COL = "Finished"
 
 
-def month_playtime(filename):
+def playtime(filename):
     df = pd.read_csv(filename)
     # Debug preview
     # print(df.head())
@@ -57,16 +57,16 @@ def rating(filename):
     # print(filtered_df.head())
 
     # Rated titles
-    M = len(filtered_df)
+    m = len(filtered_df)
     # Average rating, did not consider 100/100 scale rating
-    N = round(filtered_df["Rating"].mean(), 3)
+    n = round(filtered_df["Rating"].mean(), 3)
     # SD, same result as VAR.P in Excel
     # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.std.html
-    Q = round(filtered_df["Rating"].var(ddof=0), 3)
+    sd = round(filtered_df["Rating"].var(ddof=0), 3)
 
-    print(f"∑={M}, μ={N}/10, σ²={Q}")
+    print(f"∑={m}, μ={n}/10, σ²={sd}")
 
 
-month_playtime("clean.csv")
-month_playtime("monthly.csv")
+playtime("clean.csv")
+playtime("monthly.csv")
 rating("monthly.csv")
