@@ -1,3 +1,4 @@
+-- target dirty.csv
 SELECT "Title",
     "Platform",
     "Storefront",
@@ -5,10 +6,10 @@ SELECT "Title",
     "Rating",
     "Playtime"
 FROM "HLTB"
-WHERE "Platform" = "Nintendo Switch"
+WHERE "Platform" = "Switch"
     OR (
-        "Storefront" = "Nintendo eShop" -- Switch Arcade game
-        AND "Platform" NOT in ("Nintendo 3DS", "Wii", "Wii U") -- eShop used to be a 3DS/Wii/WiiU thing
+        "Storefront" = "eShop" -- Switch Arcade game
+        AND "Platform" NOT in ("3DS", "Wii", "WiiU") -- eShop used to be a 3DS/Wii/WiiU thing
     )
 ORDER BY "Playtime" DESC,
     "Rating" DESC;

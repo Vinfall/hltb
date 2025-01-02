@@ -1,3 +1,4 @@
+-- target clean.csv due to PC platforms
 SELECT *
 FROM HLTB
 WHERE "Platform" NOT IN (

@@ -1,16 +1,14 @@
+-- target dirty.csv
 SELECT "Title",
     "Platform",
-    "Storefront",
     "Status",
     "Rating",
     "Playtime"
 FROM "HLTB"
-WHERE "Storefront" in (
-        "Xbox Game Pass",
-        "Xbox Games w/ Gold",
-        "Xbox Store",
-        "Microsoft Store"
-    ) -- tip: exclude all others for xgp as gold is down
+WHERE (
+        "Platform" in ("XSS", "X360", "Xbox")
+        OR "Storefront" in ("EA Play", "Microsoft", "XGP")
+    )
     AND (
         "Finished" BETWEEN '2024-01-01' AND '2024-12-31' -- finished this year
         OR (
