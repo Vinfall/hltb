@@ -43,9 +43,6 @@ The following information may be useful to you:
   - Edit `BLOCK_TAGS` to excluded games with certain tags
   - Edit `CUSTOM_TAGS` to recognize your custom tab names
   - Change `SCORE_MAX` to `100` if you prefer Percentage System
-- [`hltb_analyzer.py`](hltb_analyzer.py): analyze _sanitized_ data
-  - Adjust `MIN_TIMES` to change the word frequency limit
-  - Adjust `DATE_COL` if you don't always add a completion date
 - [`hltb_visualizer.py`](hltb_visualizer.py): generate a few ugly charts from _sanitized_ data
   - Control plot behavior via `SHOW_PLOT`: patch CSV to meet the criteria of [batchartrace](https://github.com/FabDevGit/barchartrace)
 - [`hltb_barchartrace.py`](hltb_barchartrace.py)

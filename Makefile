@@ -9,7 +9,7 @@ PIP = pip
 REQUIREMENTS = requirements.txt
 SANITIZER = hltb_sanitizer.py
 BARCHART = hltb_barchartrace.py
-ANALYZER = hltb_analyzer.py
+TIMER = timer.py
 PLOT = hltb_visualizer.py
 
 # Default target, run one by one
@@ -17,14 +17,13 @@ all:
 	$(MAKE) check
 	$(MAKE) install
 	$(MAKE) sanitize
-	$(MAKE) analyze plot
+	$(MAKE) plot
 
 # make run
 run:
 	$(MAKE) check
 	$(MAKE) clean
 	$(MAKE) sanitize
-	$(MAKE) analyze
 	$(MAKE) plot
 
 check: ## check invalid lines
@@ -43,16 +42,16 @@ sanitize: clean check ## sanitize data
 	$(PYTHON) $(SANITIZER)
 	$(PYTHON) $(BARCHART)
 
-analyze: sanitize ## analyze data
-	$(PYTHON) $(ANALYZER)
-
 query: sanitize ## generate monthly playlist
 	$(PYTHON) query.py
+
+time: query ## calculate monthly playtime
+	$(PYTHON) $(TIMER)
 
 plot: sanitize ## generate plots
 	$(PYTHON) $(PLOT)
 
-clean: ## clean up outputs
+clean: ## clean outputs
 	-rm clean.csv barchartrace-*.csv monthly.csv output/*.png output/word-frequency.txt
 	-rm output/errors.csv
 
