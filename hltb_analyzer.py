@@ -1,22 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import glob
 import importlib
-import sys
 
 import pandas as pd
 
 # Import functions from query
 query_module = importlib.import_module("query")
 
-# Minimum threshold of words to show in word frequency analysis
-MIN_TIMES = 10
 # Preferred finished date, accepted values: "Finished", "Lastmod"
 DATE_COL = "Finished"
 
 
-def calculate_month_playtime(df):
+def month_playtime_rough(df):
     # TODO: move to query.py
     # Get the start and end dates of the month
     month_start, month_end = query_module.get_last_month_dates()
@@ -45,20 +41,33 @@ def calculate_month_playtime(df):
     return month_playtime_str
 
 
-file_list = glob.glob("clean.csv")
-if len(file_list) > 0:
-    # Read only the first file
-    filepath = file_list[0]
-    df_raw = pd.read_csv(filepath)
-else:
-    print("Sanitized CSV not found. Run `python hltb_sanitizer.py` first.")
-    sys.exit()
+def month_playtime_accurate(df):
+    month_playtime = pd.to_timedelta(df["Playtime"]).sum()
 
-# Analyze data
+    # Format month_playtime to HH:MM:SS
+    total_seconds = month_playtime.total_seconds()
+    hours = int(total_seconds // 3600)
+    minutes = int((total_seconds % 3600) // 60)
+    seconds = int(total_seconds % 60)
+    month_playtime_str = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
+    return month_playtime_str
+
+
 # Calculate the playtime of last month
-last_month_playtime = calculate_month_playtime(df_raw)
-# Print the result
-print("Monthly playtime:", last_month_playtime)
+def calc(filename):
+    df = pd.read_csv(filename)
+    # Debug preview
+    # print(df.head())
 
-# Debug preview
-# print(df.head())
+    last_month_playtime = (
+        month_playtime_rough(df)
+        if filename == "clean.csv"
+        else month_playtime_accurate(df)
+    )
+
+    print("Monthly playtime:", last_month_playtime)
+
+
+calc("clean.csv")
+calc("monthly.csv")
