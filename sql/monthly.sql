@@ -17,4 +17,5 @@ WHERE "Finished" BETWEEN '2024-09-01' AND '2024-09-30' -- finished this month
             AND NOT "Status" = 'Playing'
         )
     ) -- would get replaced in query.py
-ORDER BY "Playtime" DESC;
+ORDER BY "Playtime" DESC,
+    "Rating" DESC;
