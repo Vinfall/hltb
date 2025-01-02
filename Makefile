@@ -9,7 +9,6 @@ PIP = pip
 REQUIREMENTS = requirements.txt
 SANITIZER = hltb_sanitizer.py
 BARCHART = hltb_barchartrace.py
-TIMER = timer.py
 PLOT = hltb_visualizer.py
 
 # Default target, run one by one
@@ -45,8 +44,8 @@ sanitize: clean check ## sanitize data
 query: sanitize ## generate monthly playlist
 	$(PYTHON) query.py
 
-time: query ## calculate monthly playtime
-	$(PYTHON) $(TIMER)
+analyze: query ## analyze monthly data
+	$(PYTHON) analyze.py
 
 plot: sanitize ## generate plots
 	$(PYTHON) $(PLOT)

@@ -49,5 +49,24 @@ def month_playtime(filename):
     print(month_playtime_str)
 
 
+def rating(filename):
+    df = pd.read_csv(filename)
+
+    filtered_df = df[df["Rating"].notna()]
+    # Debug preview
+    # print(filtered_df.head())
+
+    # Rated titles
+    M = len(filtered_df)
+    # Average rating, did not consider 100/100 scale rating
+    N = round(filtered_df["Rating"].mean(), 3)
+    # SD, same result as VAR.P in Excel
+    # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.std.html
+    Q = round(filtered_df["Rating"].var(ddof=0), 3)
+
+    print(f"∑={M}, μ={N}/10, σ²={Q}")
+
+
 month_playtime("clean.csv")
 month_playtime("monthly.csv")
+rating("monthly.csv")
