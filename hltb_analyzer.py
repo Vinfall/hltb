@@ -3,9 +3,7 @@
 
 import glob
 import importlib
-import re
 import sys
-from collections import Counter
 
 import pandas as pd
 
@@ -47,55 +45,6 @@ def calculate_month_playtime(df):
     return month_playtime_str
 
 
-def calculate_word_frequency(df, min_times):
-    # Extract the "Review" column and convert to lowercase
-    reviews = df["Review"].astype(str).str.lower()
-
-    # Remove punctuation using regular expressions
-    reviews = reviews.apply(lambda x: re.sub(r"[^\w\s]", "", x))
-
-    # Define stop words
-    # fmt: off
-    stop_words = {'the', 'and', 'to', 'of', 'is', 'in', 'it', 'this', 'that',
-        'was', 'as', 'for', 'with', 'on', 'at', 'by', 'from', 'are', 'you',
-        'your', 'we', 'our', 'us', 'i', 'me', 'my', 'mine', 'he', 'him',
-        'his', 'she', 'her', 'hers', 'they', 'them', 'their', 'theirs',
-        'nan', 'its', 'also', 'im'}
-    # fmt: on
-
-    # Read stop words from stopwords-iso file
-    # https://raw.githubusercontent.com/stopwords-iso/stopwords-en/master/stopwords-en.txt
-    # with open("stopwords-en.txt", "r", encoding="utf-8") as file:
-    #     stop_words = set(file.read().splitlines())
-
-    # Tokenize the reviews
-    reviews = reviews.str.split()
-
-    # Remove stop words
-    reviews = reviews.apply(lambda x: [word for word in x if word not in stop_words])
-
-    # Flatten the list of words
-    words = [word for review in reviews for word in review]
-
-    # Perform word frequency analysis
-    word_counts = Counter(words)
-
-    # Keep only words with count >= min_times
-    word_counts = {
-        word: count for word, count in word_counts.items() if count > min_times
-    }
-
-    # Sort words by frequency in descending order
-    sorted_word_counts = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)
-
-    # Save word frequencies to file
-    with open("output/word-frequency.txt", "w", encoding="utf-8") as file:
-        file.write("Word frequency analysis:\n")
-        for word, count in sorted_word_counts:
-            file.write(f"{word} {count}\n")
-    print("Check output/word-frequency.txt for the results.")
-
-
 file_list = glob.glob("clean.csv")
 if len(file_list) > 0:
     # Read only the first file
@@ -110,8 +59,6 @@ else:
 last_month_playtime = calculate_month_playtime(df_raw)
 # Print the result
 print("Monthly playtime:", last_month_playtime)
-# Calculate word frequency in reviews
-calculate_word_frequency(df_raw, MIN_TIMES)
 
 # Debug preview
 # print(df.head())
