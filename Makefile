@@ -13,15 +13,11 @@ PLOT = hltb_visualizer.py
 
 # Default target, run one by one
 all:
-	$(MAKE) check
 	$(MAKE) install
 	$(MAKE) sanitize
 	$(MAKE) plot
 
-# make run
-run:
-	$(MAKE) check
-	$(MAKE) clean
+run: ## run without venv
 	$(MAKE) sanitize
 	$(MAKE) plot
 
