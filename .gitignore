@@ -4,8 +4,7 @@ venv
 virtualenv
 # data
 stopwords-en.txt
-HLTB*.csv
-monthly-*.csv
+*.csv
 !example/HLTB_Games_example.csv
 *.tsv
 *.vdj
