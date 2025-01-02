@@ -89,9 +89,9 @@ def generate_review_wordcloud(df, show_plot):
         plt.savefig("output/review-wordcloud.png")
 
 
-# Read CSV file
-file_list = glob.glob("HLTB-sanitized-*.csv")
+file_list = glob.glob("clean.csv")
 if len(file_list) > 0:
+    # Read only the first file
     filepath = file_list[0]
     df_raw = pd.read_csv(filepath)
 else:

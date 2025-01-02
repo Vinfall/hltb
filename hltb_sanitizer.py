@@ -161,22 +161,25 @@ file_list = glob.glob("HLTB_Games_*.csv")
 error_list = []
 skip_rows = []
 
-if len(file_list) > 0:
-    # Sanitize every file
-    for filepath in file_list:
-        new_file_name = filepath.replace("HLTB_Games_", "HLTB-sanitized-")
-        try:
-            df_raw = pd.read_csv(filepath, skiprows=skip_rows)
-            df_mod = sanitized_dataframe(df_raw)
-            df_mod = post_sanitize(df_mod)
+if len(file_list) > 1:
+    print("Multiple CSVs no longer supported.")
+    sys.exit()
+elif len(file_list) == 1:
+    # for filepath in file_list:
+    filepath = file_list[0]
+    new_file_name = "clean.csv"
+    try:
+        df_raw = pd.read_csv(filepath, skiprows=skip_rows)
+        df_mod = sanitized_dataframe(df_raw)
+        df_mod = post_sanitize(df_mod)
 
-            # Debug preview
-            print(df_mod.head())
+        # Debug preview
+        print(df_mod.head())
 
-            # Export to CSV
-            df_mod.to_csv(new_file_name, index=False, quoting=1)
-        except pd.errors.ParserError as e:
-            error_list.append((filepath, str(e)))
+        # Export to CSV
+        df_mod.to_csv(new_file_name, index=False, quoting=1)
+    except pd.errors.ParserError as e:
+        error_list.append((filepath, str(e)))
 else:
     print("HLTB exported CSV not found. Please export from options page first.")
     sys.exit()

@@ -62,12 +62,12 @@ def query_csv(input_csv, output_csv, sql_query):
     conn.close()
 
 
-file_list = glob.glob("HLTB-sanitized-*.csv")
+file_list = glob.glob("clean.csv")
 
 if len(file_list) > 0:
     # Read every matched file
     for filepath in file_list:
-        new_file_name = filepath.replace("HLTB-sanitized-", "monthly-")
+        new_file_name = "monthly.csv"
         query_csv(filepath, new_file_name, "sql/monthly.sql")
 else:
     print("Sanitized CSV not found. Run `python hltb_sanitizer.py` first.")

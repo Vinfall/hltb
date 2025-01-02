@@ -170,9 +170,7 @@ skip_rows = []
 if len(file_list) > 0:
     # Sanitize every file
     for filepath in file_list:
-        new_file_name = filepath.replace(
-            "HLTB_Games_", "HLTB-barchartrace-by-" + DIVISION.lower() + "-"
-        )
+        new_file_name = "barchartrace-by-" + DIVISION.lower() + ".csv"
         df_raw = pd.read_csv(filepath, skiprows=skip_rows)
         df_mod = sanitizer_module.sanitized_dataframe(df_raw)
         df_mod = sanitizer_module.date_sanitize(df_mod)

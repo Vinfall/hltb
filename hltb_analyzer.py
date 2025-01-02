@@ -96,10 +96,9 @@ def calculate_word_frequency(df, min_times):
     print("Check output/word-frequency.txt for the results.")
 
 
-# Read CSV file
-file_list = glob.glob("HLTB-sanitized-*.csv")
+file_list = glob.glob("clean.csv")
 if len(file_list) > 0:
-    # Only use the first file
+    # Read only the first file
     filepath = file_list[0]
     df_raw = pd.read_csv(filepath)
 else:
