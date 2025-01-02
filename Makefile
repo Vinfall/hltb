@@ -47,7 +47,7 @@ plot: sanitize ## generate plots
 	$(PYTHON) $(PLOT)
 
 clean: ## clean outputs
-	-rm clean.csv barchartrace-*.csv monthly.csv output/*.png output/word-frequency.txt
+	-rm clean.csv dirty.csv barchartrace-*.csv monthly.csv output/*.png output/word-frequency.txt
 	-rm output/errors.csv
 
 uninstall: ## uninstall venv & clean cache
