@@ -237,7 +237,7 @@ def dirty_clean(df):
     # Merge storefront into platform
     # could be wrong, e.g. emulator as remaster
 
-    cons = ["itch", "Play Pass", "EA Play", "XGP"]
+    cons = ["itch", "Play Pass", "EA Play", "Ubisoft+", "XGP"]
     conditions = [
         df["Storefront"].isin(cons),
         df["Platform"] == "PC",
