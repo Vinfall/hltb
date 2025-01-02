@@ -185,7 +185,7 @@ if len(file_list) > 0:
         df_mod = sanitized_dataframe_post(df_mod, DIVISION)
 
         # Debug preview
-        print(df_mod.head())
+        # print(df_mod.head())
 
         # Export to CSV
         df_mod.to_csv(NEW_FILE, index=False, quoting=1)
