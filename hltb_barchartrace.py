@@ -10,13 +10,18 @@ import pandas as pd
 # Import functions from hltb_sanitizer
 sanitizer_module = importlib.import_module("hltb_sanitizer")
 
-# Tags to exclude from results, possible to use multiple tags, exmaple: ["Backlog", "Retired"]
-BLOCK_TAGS = ["Ignored"]
 # Custom tab names
 CUSTOM_TAGS = ["Stalled"]
+# Tags to exclude from results
+# Tip: possible to use multiple tags, exmaple: ["Backlog", "Retired"]
+BLOCK_TAGS = ["Ignored"]
+# Same as above, but for divisions (i.e. platforms/storefront)
+# Tip: useful if certain platforms extremely exceed others
+BLOCK_DIVS = ["PC", "Browser"]
 # Preferred finished date, accepted values: "Finished", "Lastmod"
 DATE_COL = "Finished"
 # Accepted vlaues: "Platform", "Storefront"
+# Tip: this should be in sync with BLOCK_DIVS
 DIVISION = "Platform"
 # ISO Date range
 DATE_RANGE = True
@@ -29,6 +34,10 @@ def sort_data(df):
     # Filter data range
     if DATE_RANGE:
         df = df[(df["Date"] >= DATE_START) & (df["Date"] <= DATE_END)]
+
+    # Exclude games on excluded platforms
+    for block_div in BLOCK_DIVS:
+        df = df[df[DIVISION] != block_div]
 
     # Define the sort keys in the desired order
     sort_keys = ["Date", DATE_COL, "Platform", "Storefront", "Title"]
