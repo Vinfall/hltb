@@ -170,7 +170,7 @@ skip_rows = []
 if len(file_list) > 0:
     # Sanitize every file
     for filepath in file_list:
-        new_file_name = "barchartrace-by-" + DIVISION.lower() + ".csv"
+        NEW_FILE = "barchartrace-by-" + DIVISION.lower() + ".csv"
         df_raw = pd.read_csv(filepath, skiprows=skip_rows)
         df_mod = sanitizer_module.sanitized_dataframe(df_raw)
         df_mod = sanitizer_module.date_sanitize(df_mod)
@@ -188,7 +188,7 @@ if len(file_list) > 0:
         print(df_mod.head())
 
         # Export to CSV
-        df_mod.to_csv(new_file_name, index=False, quoting=1)
+        df_mod.to_csv(NEW_FILE, index=False, quoting=1)
         print("Now drop output to https://fabdevgit.github.io/barchartrace")
 else:
     print("HLTB sanitized CSV not found. Run `python hltb_sanitizer.py` first.")

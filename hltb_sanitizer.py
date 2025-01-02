@@ -167,7 +167,7 @@ if len(file_list) > 1:
 elif len(file_list) == 1:
     # for filepath in file_list:
     filepath = file_list[0]
-    new_file_name = "clean.csv"
+    NEW_FILE = "clean.csv"
     try:
         df_raw = pd.read_csv(filepath, skiprows=skip_rows)
         df_mod = sanitized_dataframe(df_raw)
@@ -177,7 +177,7 @@ elif len(file_list) == 1:
         print(df_mod.head())
 
         # Export to CSV
-        df_mod.to_csv(new_file_name, index=False, quoting=1)
+        df_mod.to_csv(NEW_FILE, index=False, quoting=1)
     except pd.errors.ParserError as e:
         error_list.append((filepath, str(e)))
 else:

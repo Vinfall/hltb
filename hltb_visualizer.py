@@ -64,6 +64,11 @@ def generate_review_wordcloud(df, show_plot):
         'nan', 'its', 'also', 'im'}
     # fmt: on
 
+    # Read stop words from stopwords-iso file
+    # https://raw.githubusercontent.com/stopwords-iso/stopwords-en/master/stopwords-en.txt
+    # with open("stopwords-en.txt", "r", encoding="utf-8") as file:
+    #     stop_words = set(file.read().splitlines())
+
     # Concatenate all the reviews into a single string
     text = " ".join(df["Review"].astype(str).tolist())
 
