@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import csv
 import glob
 import sqlite3
 import sys
-
-import pandas as pd
+from datetime import datetime, timedelta
 
 
 def get_last_month_dates():
-    # Get the current date
-    today = pd.to_datetime("today").normalize()  # noqa
+    today = datetime.today()
 
-    # Get the start and end dates of last month
-    month_start = "2024-12-01"
-    month_end = "2024-12-31"
-    # month_start = (today - pd.offsets.MonthBegin(1)).strftime("%Y-%m-%d")
-    # month_end = (today - pd.offsets.MonthEnd(1)).strftime("%Y-%m-%d")
+    first_day_of_month = today.replace(day=1)
+    last_month_end = first_day_of_month - timedelta(days=1)
+    last_month_start = last_month_end.replace(day=1)
+
+    # month_start = "2024-12-01"
+    # month_end = "2024-12-31"
+    month_start, month_end = last_month_start.strftime(
+        "%Y-%m-%d"
+    ), last_month_end.strftime("%Y-%m-%d")
     print(month_start, month_end)
 
     return month_start, month_end
@@ -35,11 +38,26 @@ def query_csv(input_csv, output_csv, sql_query):
 
     # Create a memory SQLite DB
     conn = sqlite3.connect(":memory:")
-    df = pd.read_csv(input_csv)
-    df.to_sql("HLTB", conn, index=False, if_exists="replace")
+    cursor = conn.cursor()
 
-    result_df = pd.read_sql_query(query, conn)
-    result_df.to_csv(output_csv, index=False)
+    # Read CSV and create table
+    with open(input_csv, "r", encoding="utf-8") as csvfile:
+        reader = csv.reader(csvfile)
+        headers = next(reader)
+        cursor.execute(f"CREATE TABLE HLTB ({', '.join(headers)})")
+        cursor.executemany(
+            # trunk-ignore(bandit/B608): intended SQL injection
+            f"INSERT INTO HLTB VALUES ({', '.join(['?']*len(headers))})",
+            reader,
+        )
+
+    cursor.execute(query)
+    results = cursor.fetchall()
+
+    with open(output_csv, "w", encoding="utf-8", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow([description[0] for description in cursor.description])
+        writer.writerows(results)
 
     conn.close()
 
