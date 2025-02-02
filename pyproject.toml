@@ -18,9 +18,9 @@ classifiers = [
 ]
 dependencies = [
   "pandas>=2.2.3",
-  "numpy>=2.2.1",
+  "numpy>=2.2.2",
   "matplotlib>=3.10.0",
-  "Pillow>=11.0.0",
+  "Pillow>=11.1.0",
   "imageio>=2.36.1",
   "wordcloud>=1.9.3",
 ]
