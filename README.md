@@ -19,8 +19,6 @@ git clone https://github.com/Vinfall/hltb
 cd hltb
 
 # Set up venv and use
-# NOTE: I assume you use virtualenv, if not,
-# replace `virtualenv` with `python -m venv` in Makefile
 make install
 make run
 

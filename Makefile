@@ -6,7 +6,6 @@ PYTHON = python
 PIP = pip
 
 # Dependencies & scripts
-REQUIREMENTS = requirements.txt
 SANITIZER = hltb_sanitizer.py
 BARCHART = hltb_barchartrace.py
 PLOT = hltb_visualizer.py
@@ -28,10 +27,10 @@ install: $(VENV) ## install dependencies in venv
 	$(PIP) install -r $(REQUIREMENTS)
 
 $(VENV):
-	@echo "Setting up virtualenv..."
-	virtualenv $(VENV)
+	@echo "Setting up venv..."
+	${PYTHON} -m venv $(VENV)
 	source $(VENV)/bin/activate; \
-	$(PIP) install -r $(REQUIREMENTS)
+	$(PIP) install .
 
 sanitize: clean check ## sanitize data
 	$(PYTHON) $(SANITIZER)
