@@ -6,15 +6,29 @@
 # dependencies = ["pandas>=2.2.3"]
 # ///
 
-import importlib
+from datetime import datetime, timedelta
 
 import pandas as pd
 
-# Import functions from query
-query_module = importlib.import_module("query")
-
 # Preferred finished date, accepted values: "Finished", "Lastmod"
 DATE_COL = "Finished"
+
+
+def get_last_month_dates():
+    today = datetime.today()
+
+    first_day_of_month = today.replace(day=1)
+    last_month_end = first_day_of_month - timedelta(days=1)
+    last_month_start = last_month_end.replace(day=1)
+
+    # month_start = "2024-12-01"
+    # month_end = "2024-12-31"
+    month_start, month_end = last_month_start.strftime(
+        "%Y-%m-%d"
+    ), last_month_end.strftime("%Y-%m-%d")
+    print(month_start, month_end)
+
+    return month_start, month_end
 
 
 def playtime(filename):
@@ -25,7 +39,7 @@ def playtime(filename):
     # Rough estimation
     if filename == "clean.csv":
         # Get the start and end dates of the month
-        month_start, month_end = query_module.get_last_month_dates()
+        month_start, month_end = get_last_month_dates()
 
         # Convert columns to Timestamp
         df["Date"] = pd.to_datetime(df["Date"])

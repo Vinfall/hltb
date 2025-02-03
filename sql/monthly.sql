@@ -5,15 +5,15 @@ SELECT "Title",
     "Rating",
     "Playtime"
 FROM "HLTB"
-WHERE "Finished" BETWEEN '2024-09-01' AND '2024-09-30' -- finished this month
+WHERE "Finished" BETWEEN '2025-01-01' AND '2025-01-31' -- finished this month
     OR (
         "Finished" IS NULL
-        AND NOT "Date" > '2024-09-30' -- Playing/Retired/Stalled
+        AND NOT "Date" > '2025-01-31' -- Playing/Retired/Stalled
         AND NOT (
-            "Date" < '2024-09-01' -- excluded earlier games
+            "Date" < '2025-01-01' -- excluded earlier games
             AND NOT "Status" = 'Playing'
         )
-    ) -- would get replaced in query.py
+    )
 ORDER BY CASE
         WHEN "Playtime" IS NULL THEN 1
         ELSE 0

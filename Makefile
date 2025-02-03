@@ -21,16 +21,16 @@ sanitize: clean check ## sanitize data
 	uv run $(BARCHART)
 
 query: sanitize ## generate monthly playlist
-	uv run query.py
+	@echo "Do not use python for this, period."
 
-analyze: query ## analyze monthly data
+analyze: monthly.csv ## analyze monthly data
 	uv run analyze.py
 
 plot: sanitize ## generate plots
 	uv run $(PLOT)
 
 clean: ## clean outputs
-	-rm clean.csv dirty.csv barchartrace-*.csv monthly.csv output/*.png output/word-frequency.txt
+	-rm clean.csv dirty.csv barchartrace-*.csv output/*.png output/word-frequency.txt
 	-rm output/errors.csv
 
 help: ## show this help
