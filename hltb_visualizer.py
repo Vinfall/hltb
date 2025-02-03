@@ -1,6 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#   "matplotlib>=3.10.0",
+#   "pandas>=2.2.3",
+#   "imageio>=2.36.1",
+#   "wordcloud>=1.9.3"
+# ]
+# ///
+
 import glob
 import sys
 
@@ -8,8 +18,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from imageio import imread  # noqa: F401
 from wordcloud import WordCloud
-
-# import numpy as np
 
 # Show plot or save to file, True means show plot
 SHOW_PLOT = {

@@ -18,16 +18,35 @@ It's really straightforward though:
 git clone https://github.com/Vinfall/hltb
 cd hltb
 
-# Set up venv and use
-make install
-make run
+# Set up venv and install the project
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
 
-# Clean up
-make clean
-make uninstall
+# Detect problematic lines in CSV
+python debug.py
+```
+
+Alternative, if you use [uv](https://docs.astral.sh/uv/) it's even easier:
+
+```sh
+git clone https://github.com/Vinfall/hltb
+cd hltb
+
+make
 ```
 
 Now you are good to go ahead.
+
+To uninstall:
+
+```sh
+# Clean up
+make clean
+# Only needed if you set up venv
+deactivate
+rm -rf .venv
+```
 
 ## Usage
 

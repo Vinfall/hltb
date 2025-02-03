@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# /// script
+# requires-python = ">=3.12"
+# dependencies = []
+# ///
+
 import csv
 import glob
 
