@@ -21,9 +21,9 @@ sanitize: clean check ## sanitize data
 	uv run $(BARCHART)
 
 query: sanitize ## generate monthly playlist
-	@echo "Do not use python for this, period."
+	@echo "Run SQL query in a real db soft, period."
 
-analyze: monthly.csv ## analyze monthly data
+analyze: monthly.tsv ## analyze monthly data
 	uv run analyze.py
 
 plot: sanitize ## generate plots

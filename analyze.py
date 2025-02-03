@@ -6,6 +6,7 @@
 # dependencies = ["pandas>=2.2.3"]
 # ///
 
+import os
 from datetime import datetime, timedelta
 
 import pandas as pd
@@ -32,7 +33,14 @@ def get_last_month_dates():
 
 
 def playtime(filename):
-    df = pd.read_csv(filename)
+    file_ext = os.path.splitext(filename)[1]
+    if file_ext == ".csv":
+        df = pd.read_csv(filename)
+    elif file_ext == ".tsv":
+        df = pd.read_table(filename)
+    else:
+        raise ValueError("Unsupported format.")
+
     # Debug preview
     # print(df.head())
 
@@ -69,7 +77,14 @@ def playtime(filename):
 
 
 def rating(filename):
-    df = pd.read_csv(filename)
+    file_ext = os.path.splitext(filename)[1]
+    if file_ext == ".csv":
+        df = pd.read_csv(filename)
+    elif file_ext == ".tsv":
+        df = pd.read_table(filename)
+    else:
+        raise ValueError("Unsupported format.")
+
     df.dropna(subset=["Rating"], inplace=True)
 
     # Debug preview
@@ -87,5 +102,5 @@ def rating(filename):
 
 
 playtime("clean.csv")
-playtime("monthly.csv")
-rating("monthly.csv")
+playtime("monthly.tsv")
+rating("monthly.tsv")
