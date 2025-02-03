@@ -20,8 +20,11 @@ WHERE (
             )
         )
     )
-ORDER BY LENGTH("Playtime") DESC,
-    -- 100:00:00 > 99:59:59
+ORDER BY CASE
+        WHEN "Playtime" IS NULL THEN 1
+        ELSE 0
+    END,
+    LENGTH("Playtime") DESC,
     "Playtime" DESC,
     "Rating" DESC,
     CASE
