@@ -1,5 +1,12 @@
 # HLTB Linear & Temporal Breakdown
 
+> [!WARNING]
+> I'm retiring HLTB in favor of local database powered by [Datasette](https://datasette.io).
+> As a result, I no longer have the intention to maintain this repo.
+> While this is still useful for reference, it contains many errors I don't bother to backport fixes
+> (especially the SQL queries) so you should use it at your own risk
+> (which is also why it's licensed under GLWTPL).
+
 ## Intro
 
 [HowLongToBeat](https://howlongtobeat.com) is a website that helps your track play times, which is also [in collaboration with Microsoft](https://news.xbox.com/en-us/2022/09/14/september-updates-xbox-app-on-pc/) to show approximate competition time for the Xbox app on PC. The best thing is you can export your records to a CSV file so you really own your data, instead of relying on a third party.
